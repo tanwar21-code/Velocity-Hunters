@@ -1,4 +1,4 @@
-# ![Velocity Hunters Logo](logo.jpg)
+# ![Velocity Hunters Logo](velocity-hunters-logo.jpg)
 
 # 🚗 Velocity Hunters
 

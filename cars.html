@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Car Fleet - Velocity Hunters</title>
+    <link rel="icon" href="assets/vh-favicon.ico" type="image/x-icon">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-green: #10B981;
+            --light-green: #34D399;
+            --accent-yellow: #F59E0B;
+            --bright-yellow: #FCD34D;
+            --error-red: #EF4444;
+            --text-black: #111827;
+            --light-gray: #F9FAFB;
+            --medium-gray: #E5E7EB;
+            --border-gray: #D1D5DB;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: white;
+            color: var(--text-black);
+            line-height: 1.6;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-green);
+            border-radius: 3px;
+        }
+        
+        /* Clean Card Design */
+        .clean-card {
+            background: white;
+            border: 1px solid var(--border-gray);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .clean-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Button Styles */
+        .btn-primary {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: var(--accent-yellow);
+            color: var(--text-black);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background: #D97706;
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-green);
+            border: 2px solid var(--primary-green);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary-green);
+            color: white;
+        }
+        
+        /* Hero Section */
+        .hero-cars {
+            background: linear-gradient(135deg, var(--light-green) 0%, var(--primary-green) 100%);
+            color: white;
+            min-height: 40vh;
+        }
+        
+        /* Filter Sidebar */
+        .filter-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        
+        .filter-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-gray);
+        }
+        
+        .filter-section:last-child {
+            border-bottom: none;
+        }
+        
+        .filter-title {
+            color: var(--text-black);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        
+        /* Price Range Slider */
+        .price-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--medium-gray);
+            outline: none;
+        }
+        
+        .price-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Car Cards */
+        .car-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Image Gallery */
+        .car-gallery {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-black);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .gallery-nav:hover {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .gallery-prev {
+            left: 12px;
+        }
+        
+        .gallery-next {
+            right: 12px;
+        }
+        
+        /* Category Badges */
+        .category-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 5;
+            backdrop-filter: blur(10px);
+        }
+        
+        .badge-sports {
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+        }
+        
+        .badge-luxury {
+            background: rgba(168, 85, 247, 0.9);
+            color: white;
+        }
+        
+        .badge-supercar {
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+        }
+        
+        .badge-exotic {
+            background: rgba(245, 158, 11, 0.9);
+            color: white;
+        }
+        
+        .badge-offroad {
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+        }
+        
+        /* Wishlist Heart */
+        .wishlist-btn {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            color: var(--text-black);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .wishlist-btn:hover,
+        .wishlist-btn.active {
+            background: var(--error-red);
+            color: white;
+        }
+        
+        /* Rating Stars */
+        .rating-stars {
+            color: var(--accent-yellow);
+        }
+        
+        /* Quick View Modal */
+        .quick-view-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quick-view-modal.active {
+            display: flex;
+        }
+        
+        .quick-view-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* View Toggle */
+        .view-toggle {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: 0.25rem;
+            display: flex;
+            border: 1px solid var(--border-gray);
+        }
+        
+        .view-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: var(--text-black);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .view-btn.active {
+            background: var(--primary-green);
+            color: white;
+        }
+        
+        /* List View */
+        .car-list-item {
+            display: flex;
+            background: white;
+            border: 1px solid var(--border-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .car-list-item:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .filter-sidebar {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 85%;
+                height: 100vh;
+                background: white;
+                z-index: 1000;
+                transition: left 0.3s ease;
+                padding: 2rem;
+                overflow-y: auto;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .filter-sidebar.open {
+                left: 0;
+            }
+            
+            .cars-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+        
+        /* Comparison Bar */
+        .comparison-bar {
+            position: fixed;
+            bottom: -100px;
+            left: 0;
+            right: 0;
+            background: var(--primary-green);
+            padding: 1rem;
+            transition: bottom 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comparison-bar.active {
+            bottom: 0;
+        }
+        
+        /* Input Styles */
+        .form-input {
+            border: 1px solid var(--border-gray);
+            border-radius: 8px;
+            padding: 0.75rem;
+            background: white;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+        
+        .form-input:focus {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        /* Checkbox & Radio Styles */
+        .form-checkbox,
+        .form-radio {
+            accent-color: var(--primary-green);
+        }
+        
+        /* Clean Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .text-muted {
+            color: #6B7280;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb a {
+            color: var(--primary-green);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-gray-200 fixed top-0 w-full z-50" id="navbar">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-4">
+                    <img src="assets/velocity-hunters-logo.png" alt="Velocity Hunters" class="h-10 w-auto">
+                    <span class="text-xl font-bold text-gray-900">Velocity Hunters</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-green-600 transition-colors duration-200">Home</a>
+                    <a href="cars.html" class="text-green-600 font-semibold">Cars</a>
+                    <a href="#about" class="text-gray-700 hover:text-green-600 transition-colors duration-200">About</a>
+                    <a href="#contact" class="text-gray-700 hover:text-green-600 transition-colors duration-200">Contact</a>
+                </div>
+                
+                <button class="md:hidden text-gray-700 text-xl" id="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-cars pt-24 pb-16">
+        <div class="container mx-auto px-4">
+            <!-- Breadcrumb -->
+            <div class="mb-8 breadcrumb" data-aos="fade-down">
+                <nav class="text-sm">
+                    <a href="index.html" class="hover:underline">Home</a>
+                    <span class="mx-2 text-white/70">/</span>
+                    <span class="text-white font-semibold">Cars</span>
+                </nav>
+            </div>
+            
+            <!-- Page Title -->
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 text-white">
+                    Premium Fleet
+                </h1>
+                <p class="text-xl text-white/90 max-w-2xl mx-auto mb-6">
+                    Discover our collection of luxury vehicles, each meticulously maintained for your ultimate driving experience.
+                </p>
+                <div class="text-lg">
+                    <span class="text-yellow-300 font-bold text-2xl" id="car-count">15</span>
+                    <span class="text-white/80 ml-2">premium cars available</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Filter Sidebar -->
+            <aside class="lg:w-1/4 filter-sidebar" id="filter-sidebar">
+                <div class="clean-card p-6">
+                    <!-- Mobile Filter Header -->
+                    <div class="flex justify-between items-center mb-6 lg:hidden">
+                        <h2 class="text-xl font-bold text-gray-900">Filters</h2>
+                        <button class="text-gray-500 text-xl" id="close-filters">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Price Range -->
+                    <div class="filter-section">
+                        <h3 class="filter-title">
+                            <i class="fas fa-rupee-sign mr-2 text-green-600"></i>Price Range (per day)
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between text-sm text-gray-600">
+                                <span>₹7,500</span>
+                                <span>₹25,000</span>
+                            </div>
+                            <input type="range" min="7500" max="25000" value="25000" class="price-slider" id="price-range">
+                            <div class="text-center text-green-600 font-bold">
+                                Up to ₹<span id="price-display">25,000</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Category Filter -->
+                    <div class="filter-section">
+                        <h3 class="filter-title">
+                            <i class="fas fa-car mr-2 text-green-600"></i>Category
+                        </h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Sports" class="category-filter mr-3 form-checkbox">
+                                <i class="fas fa-bolt text-red-500 mr-2"></i>
+                                <span>Sports Cars</span>
+                                <span class="ml-auto text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">3</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Supercar" class="category-filter mr-3 form-checkbox">
+                                <i class="fas fa-rocket text-red-600 mr-2"></i>
+                                <span>Supercars</span>
+                                <span class="ml-auto text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">3</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Luxury" class="category-filter mr-3 form-checkbox">
+                                <i class="fas fa-crown text-purple-600 mr-2"></i>
+                                <span>Luxury</span>
+                                <span class="ml-auto text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">3</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Exotic" class="category-filter mr-3 form-checkbox">
+                                <i class="fas fa-gem text-yellow-600 mr-2"></i>
+                                <span>Exotic</span>
+                                <span class="ml-auto text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">3</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Offroad" class="category-filter mr-3 form-checkbox">
+                                <i class="fas fa-mountain text-green-600 mr-2"></i>
+                                <span>Off-road</span>
+                                <span class="ml-auto text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">3</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Brand Filter -->
+                    <div class="filter-section">
+                        <h3 class="filter-title">
+                            <i class="fas fa-building mr-2 text-green-600"></i>Brand
+                        </h3>
+                        <div class="space-y-3 max-h-48 overflow-y-auto">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Ferrari" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/images/ferrari-logo.png" alt="Ferrari" class="w-5 h-5 mr-2">
+                                <span>Ferrari</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Lamborghini" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/images/lamborghini-logo.png" alt="Lamborghini" class="w-5 h-5 mr-2">
+                                <span>Lamborghini</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Mercedes-Benz" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/images/mercedes-logo.png" alt="Mercedes" class="w-5 h-5 mr-2">
+                                <span>Mercedes-Benz</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Rolls-Royce" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/icons/rolls-royce-logo.png" alt="Rolls-Royce" class="w-5 h-5 mr-2">
+                                <span>Rolls-Royce</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Land Rover" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/icons/land-rover-logo.png" alt="Land Rover" class="w-5 h-5 mr-2">
+                                <span>Land Rover</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="BMW" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/images/bmw-logo.png" alt="BMW" class="w-5 h-5 mr-2">
+                                <span>BMW</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Porsche" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/images/porsche-logo.png" alt="Porsche" class="w-5 h-5 mr-2">
+                                <span>Porsche</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Audi" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/images/audi-logo.png" alt="Audi" class="w-5 h-5 mr-2">
+                                <span>Audi</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Jeep" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/icons/jeep-logo.png" alt="Jeep" class="w-5 h-5 mr-2">
+                                <span>Jeep</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Bentley" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/icons/bentley-logo.png" alt="Bentley" class="w-5 h-5 mr-2">
+                                <span>Bentley</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="McLaren" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/images/mclaren-logo.png" alt="McLaren" class="w-5 h-5 mr-2">
+                                <span>McLaren</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Toyota" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/icons/toyota-logo.png" alt="Toyota" class="w-5 h-5 mr-2">
+                                <span>Toyota</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Lexus" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/icons/lexus-logo.png" alt="Lexus" class="w-5 h-5 mr-2">
+                                <span>Lexus</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Nissan" class="brand-filter mr-3 form-checkbox">
+                                <img src="assets/icons/nissan-logo.png" alt="Nissan" class="w-5 h-5 mr-2">
+                                <span>Nissan</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Transmission Filter -->
+                    <div class="filter-section">
+                        <h3 class="filter-title">
+                            <i class="fas fa-cog mr-2 text-green-600"></i>Transmission
+                        </h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="transmission" value="all" class="transmission-filter mr-3 form-radio" checked>
+                                <span>All</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="transmission" value="Automatic" class="transmission-filter mr-3 form-radio">
+                                <span>Automatic</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="transmission" value="Manual" class="transmission-filter mr-3 form-radio">
+                                <span>Manual</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio" name="transmission" value="e-CVT" class="transmission-filter mr-3 form-radio">
+                                <span>e-CVT</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Fuel Type Filter -->
+                    <div class="filter-section">
+                        <h3 class="filter-title">
+                            <i class="fas fa-gas-pump mr-2 text-green-600"></i>Fuel Type
+                        </h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Petrol" class="fuel-filter mr-3 form-checkbox">
+                                <i class="fas fa-gas-pump mr-2 text-red-500"></i>
+                                <span>Petrol</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Diesel" class="fuel-filter mr-3 form-checkbox">
+                                <i class="fas fa-gas-pump mr-2 text-yellow-600"></i>
+                                <span>Diesel</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="Hybrid" class="fuel-filter mr-3 form-checkbox">
+                                <i class="fas fa-leaf mr-2 text-green-600"></i>
+                                <span>Hybrid</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Seating Capacity -->
+                    <div class="filter-section">
+                        <h3 class="filter-title">
+                            <i class="fas fa-users mr-2 text-green-600"></i>Seating
+                        </h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="2" class="seating-filter mr-3 form-checkbox">
+                                <span>2 Seats</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="4" class="seating-filter mr-3 form-checkbox">
+                                <span>4 Seats</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="5" class="seating-filter mr-3 form-checkbox">
+                                <span>5 Seats</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox" value="7" class="seating-filter mr-3 form-checkbox">
+                                <span>7 Seats</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Clear Filters -->
+                    <button class="w-full btn-primary" id="clear-filters">
+                        <i class="fas fa-refresh mr-2"></i>Clear All Filters
+                    </button>
+                </div>
+            </aside>
+            
+            <!-- Main Content Area -->
+            <main class="lg:w-3/4">
+                <!-- Top Controls -->
+                <div class="flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0">
+                    <!-- Mobile Filter Button -->
+                    <button class="lg:hidden btn-primary" id="open-filters">
+                        <i class="fas fa-filter mr-2"></i>Filters
+                    </button>
+                    
+                    <!-- Sort Dropdown -->
+                    <div class="flex items-center space-x-4">
+                        <label class="text-gray-700 font-medium">Sort by:</label>
+                        <select class="form-input border-gray-300 text-gray-900" id="sort-select">
+                            <option value="popularity">Popularity</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Rating</option>
+                            <option value="newest">Newest First</option>
+                        </select>
+                    </div>
+                    
+                    <!-- View Toggle -->
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="view-btn" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Quick Filters -->
+                <div class="flex flex-wrap gap-3 mb-8">
+                    <button class="quick-filter btn-outline" data-filter="under-10k">
+                        Under ₹10,000
+                    </button>
+                    <button class="quick-filter btn-outline" data-filter="luxury">
+                        Luxury Cars
+                    </button>
+                    <button class="quick-filter btn-outline" data-filter="sports">
+                        Sports Cars
+                    </button>
+                    <button class="quick-filter btn-outline" data-filter="electric">
+                        Eco-Friendly
+                    </button>
+                </div>
+                
+                <!-- Cars Grid/List -->
+                <div id="cars-container">
+                    <!-- Loading Skeleton -->
+                    <div id="loading-skeleton" class="cars-grid grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                        <!-- Skeleton cards will be generated by JavaScript -->
+                    </div>
+                    
+                    <!-- Cars Grid View -->
+                    <div id="cars-grid" class="cars-grid grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" style="display: none;">
+                        <!-- Car cards will be generated by JavaScript -->
+                    </div>
+                    
+                    <!-- Cars List View -->
+                    <div id="cars-list" class="cars-list space-y-6" style="display: none;">
+                        <!-- Car list items will be generated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- No Results -->
+                <div id="no-results" class="text-center py-16" style="display: none;">
+                    <i class="fas fa-car text-6xl text-gray-400 mb-4"></i>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">No cars found</h3>
+                    <p class="text-gray-600 mb-6">Try adjusting your filters or search criteria</p>
+                    <button class="btn-primary" onclick="clearAllFilters()">
+                        <i class="fas fa-refresh mr-2"></i>Clear Filters
+                    </button>
+                </div>
+                
+                <!-- Load More Button -->
+                <div class="text-center mt-12">
+                    <button class="btn-secondary" id="load-more" style="display: none;">
+                        <i class="fas fa-plus mr-2"></i>Load More Cars
+                    </button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Quick View Modal -->
+    <div class="quick-view-modal" id="quick-view-modal">
+        <div class="quick-view-content relative">
+            <button class="absolute top-4 right-4 bg-red-500 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-red-600 transition-colors" id="close-quick-view">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div id="quick-view-content">
+                <!-- Quick view content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Bar -->
+    <div class="comparison-bar" id="comparison-bar">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <span class="text-white font-bold">Compare Cars:</span>
+                    <div id="comparison-items" class="flex space-x-2">
+                        <!-- Comparison items will be added here -->
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="bg-white text-green-600 px-4 py-2 rounded-lg font-bold hover:bg-gray-100 transition-colors" id="compare-btn">
+                        Compare Now
+                    </button>
+                    <button class="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition-colors" id="clear-comparison">
+                        Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Car Data
+        const carData = [
+            {
+                "name": "Ferrari 488 GTB",
+                "brand": "Ferrari",
+                "category": "Sports",
+                "price_per_day": 15000,
+                "rating": 4.9,
+                "total_reviews": 127,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 2,
+                "year": 2023,
+                "engine": "3.9L V8 Twin Turbo",
+                "power": "661 HP",
+                "top_speed": "330 km/h",
+                "acceleration": "0-100 in 3.0s",
+                "available_cities": ["Delhi", "Mumbai", "Guwahati"],
+                "features": ["GPS", "Bluetooth", "Premium Sound", "Climate Control"],
+                "images": [
+                    "ferrari-488-front.jpg",
+                    "ferrari-488-side.jpg",
+                    "ferrari-488-interior.jpg",
+                    "ferrari-488-rear.jpg",
+                    "ferrari-488-dashboard.jpg",
+                    "ferrari-488-engine.jpg"
+                ]
+            },
+            {
+                "name": "Lamborghini Huracan EVO",
+                "brand": "Lamborghini",
+                "category": "Supercar",
+                "price_per_day": 18000,
+                "rating": 4.8,
+                "total_reviews": 110,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 2,
+                "year": 2023,
+                "engine": "5.2L V10",
+                "power": "631 HP",
+                "top_speed": "325 km/h",
+                "acceleration": "0-100 in 2.9s",
+                "available_cities": ["Delhi", "Bangalore", "Chennai"],
+                "features": ["GPS", "Bluetooth", "Sport Exhaust", "Launch Control"],
+                "images": [
+                    "huracan-front.jpg",
+                    "huracan-side.jpg",
+                    "huracan-interior.jpg",
+                    "huracan-rear.jpg",
+                    "huracan-dashboard.jpg",
+                    "huracan-engine.jpg"
+                ]
+            },
+            {
+                "name": "Mercedes-Benz S-Class",
+                "brand": "Mercedes-Benz",
+                "category": "Luxury",
+                "price_per_day": 9500,
+                "rating": 4.7,
+                "total_reviews": 85,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 5,
+                "year": 2023,
+                "engine": "3.0L Inline-6 Turbo",
+                "power": "429 HP",
+                "top_speed": "250 km/h",
+                "acceleration": "0-100 in 4.9s",
+                "available_cities": ["Delhi", "Mumbai", "Hyderabad"],
+                "features": ["Massage Seats", "Ambient Lighting", "Burmester Audio", "Panoramic Sunroof"],
+                "images": [
+                    "sclass-front.jpg",
+                    "sclass-side.jpg",
+                    "sclass-interior.jpg",
+                    "sclass-rear.jpg",
+                    "sclass-dashboard.jpg",
+                    "sclass-engine.jpg"
+                ]
+            },
+            {
+                "name": "Rolls-Royce Ghost",
+                "brand": "Rolls-Royce",
+                "category": "Exotic",
+                "price_per_day": 25000,
+                "rating": 4.9,
+                "total_reviews": 60,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 5,
+                "year": 2023,
+                "engine": "6.75L V12",
+                "power": "563 HP",
+                "top_speed": "250 km/h",
+                "acceleration": "0-100 in 4.8s",
+                "available_cities": ["Delhi", "Mumbai"],
+                "features": ["Starlight Headliner", "Luxury Rear Seats", "Premium Audio", "Night Vision"],
+                "images": [
+                    "ghost-front.jpg",
+                    "ghost-side.jpg",
+                    "ghost-interior.jpg",
+                    "ghost-rear.jpg",
+                    "ghost-dashboard.jpg",
+                    "ghost-engine.jpg"
+                ]
+            },
+            {
+                "name": "Land Rover Defender",
+                "brand": "Land Rover",
+                "category": "Offroad",
+                "price_per_day": 8500,
+                "rating": 4.6,
+                "total_reviews": 74,
+                "transmission": "Automatic",
+                "fuel_type": "Diesel",
+                "seating": 5,
+                "year": 2023,
+                "engine": "3.0L I6 Turbocharged Diesel",
+                "power": "296 HP",
+                "top_speed": "191 km/h",
+                "acceleration": "0-100 in 6.7s",
+                "available_cities": ["Manali", "Leh", "Shimla"],
+                "features": ["Terrain Response", "360 Camera", "Water Wading", "Hill Descent Control"],
+                "images": [
+                    "defender-front.jpg",
+                    "defender-side.jpg",
+                    "defender-interior.jpg",
+                    "defender-rear.jpg",
+                    "defender-dashboard.jpg",
+                    "defender-engine.jpg"
+                ]
+            },
+            {
+                "name": "BMW M5 Competition",
+                "brand": "BMW",
+                "category": "Sports",
+                "price_per_day": 12000,
+                "rating": 4.8,
+                "total_reviews": 97,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 5,
+                "year": 2023,
+                "engine": "4.4L V8 Twin Turbo",
+                "power": "617 HP",
+                "top_speed": "305 km/h",
+                "acceleration": "0-100 in 3.3s",
+                "available_cities": ["Delhi", "Pune", "Bangalore"],
+                "features": ["M Sport Seats", "Launch Control", "Harman Kardon Audio", "Heads-Up Display"],
+                "images": [
+                    "m5-front.jpg",
+                    "m5-side.jpg",
+                    "m5-interior.jpg",
+                    "m5-rear.jpg",
+                    "m5-dashboard.jpg",
+                    "m5-engine.jpg"
+                ]
+            },
+            {
+                "name": "Porsche 911 Turbo S",
+                "brand": "Porsche",
+                "category": "Supercar",
+                "price_per_day": 16000,
+                "rating": 4.9,
+                "total_reviews": 102,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 4,
+                "year": 2023,
+                "engine": "3.8L Twin-Turbo Flat-6",
+                "power": "640 HP",
+                "top_speed": "330 km/h",
+                "acceleration": "0-100 in 2.7s",
+                "available_cities": ["Mumbai", "Delhi", "Hyderabad"],
+                "features": ["PASM Suspension", "Bose Audio", "Launch Control", "Rear-Axle Steering"],
+                "images": [
+                    "911-front.jpg",
+                    "911-side.jpg",
+                    "911-interior.jpg",
+                    "911-rear.jpg",
+                    "911-dashboard.jpg",
+                    "911-engine.jpg"
+                ]
+            },
+            {
+                "name": "Audi Q8",
+                "brand": "Audi",
+                "category": "Luxury",
+                "price_per_day": 9000,
+                "rating": 4.5,
+                "total_reviews": 63,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 5,
+                "year": 2023,
+                "engine": "3.0L V6 Turbo",
+                "power": "335 HP",
+                "top_speed": "250 km/h",
+                "acceleration": "0-100 in 5.9s",
+                "available_cities": ["Delhi", "Bangalore", "Mumbai"],
+                "features": ["Virtual Cockpit", "Ambient Light", "Panoramic Roof", "Air Suspension"],
+                "images": [
+                    "q8-front.jpg",
+                    "q8-side.jpg",
+                    "q8-interior.jpg",
+                    "q8-rear.jpg",
+                    "q8-dashboard.jpg",
+                    "q8-engine.jpg"
+                ]
+            },
+            {
+                "name": "Jeep Wrangler Rubicon",
+                "brand": "Jeep",
+                "category": "Offroad",
+                "price_per_day": 7500,
+                "rating": 4.7,
+                "total_reviews": 59,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 5,
+                "year": 2023,
+                "engine": "2.0L Turbo I4",
+                "power": "268 HP",
+                "top_speed": "180 km/h",
+                "acceleration": "0-100 in 7.4s",
+                "available_cities": ["Leh", "Manali", "Rishikesh"],
+                "features": ["4x4 Lock", "Skid Plates", "Detachable Roof", "Off-road Tires"],
+                "images": [
+                    "wrangler-front.jpg",
+                    "wrangler-side.jpg",
+                    "wrangler-interior.jpg",
+                    "wrangler-rear.jpg",
+                    "wrangler-dashboard.jpg",
+                    "wrangler-engine.jpg"
+                ]
+            },
+            {
+                "name": "Bentley Continental GT",
+                "brand": "Bentley",
+                "category": "Exotic",
+                "price_per_day": 20000,
+                "rating": 4.9,
+                "total_reviews": 51,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 4,
+                "year": 2023,
+                "engine": "6.0L W12 Twin Turbo",
+                "power": "626 HP",
+                "top_speed": "333 km/h",
+                "acceleration": "0-100 in 3.7s",
+                "available_cities": ["Delhi", "Hyderabad", "Mumbai"],
+                "features": ["Luxury Leather", "Bang & Olufsen Audio", "Air Suspension", "Massage Seats"],
+                "images": [
+                    "continental-front.jpg",
+                    "continental-side.jpg",
+                    "continental-interior.jpg",
+                    "continental-rear.jpg",
+                    "continental-dashboard.jpg",
+                    "continental-engine.jpg"
+                ]
+            },
+            {
+                "name": "McLaren 720S",
+                "brand": "McLaren",
+                "category": "Supercar",
+                "price_per_day": 22000,
+                "rating": 4.9,
+                "total_reviews": 48,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 2,
+                "year": 2023,
+                "engine": "4.0L V8 Twin Turbo",
+                "power": "710 HP",
+                "top_speed": "341 km/h",
+                "acceleration": "0-100 in 2.8s",
+                "available_cities": ["Mumbai", "Delhi"],
+                "features": ["Dihedral Doors", "Carbon Fibre Body", "Race Mode", "Bluetooth"],
+                "images": [
+                    "720s-front.jpg",
+                    "720s-side.jpg",
+                    "720s-interior.jpg",
+                    "720s-rear.jpg",
+                    "720s-dashboard.jpg",
+                    "720s-engine.jpg"
+                ]
+            },
+            {
+                "name": "Toyota Land Cruiser LC300",
+                "brand": "Toyota",
+                "category": "Offroad",
+                "price_per_day": 11000,
+                "rating": 4.7,
+                "total_reviews": 72,
+                "transmission": "Automatic",
+                "fuel_type": "Diesel",
+                "seating": 7,
+                "year": 2023,
+                "engine": "3.3L V6 Twin Turbo",
+                "power": "305 HP",
+                "top_speed": "210 km/h",
+                "acceleration": "0-100 in 6.7s",
+                "available_cities": ["Leh", "Manali", "Jaipur"],
+                "features": ["Multi-Terrain Monitor", "Crawl Control", "Sunroof", "Rear AC"],
+                "images": [
+                    "landcruiser-front.jpg",
+                    "landcruiser-side.jpg",
+                    "landcruiser-interior.jpg",
+                    "landcruiser-rear.jpg",
+                    "landcruiser-dashboard.jpg",
+                    "landcruiser-engine.jpg"
+                ]
+            },
+            {
+                "name": "Lexus LS 500h",
+                "brand": "Lexus",
+                "category": "Luxury",
+                "price_per_day": 10500,
+                "rating": 4.6,
+                "total_reviews": 67,
+                "transmission": "e-CVT",
+                "fuel_type": "Hybrid",
+                "seating": 5,
+                "year": 2023,
+                "engine": "3.5L V6 Hybrid",
+                "power": "354 HP",
+                "top_speed": "250 km/h",
+                "acceleration": "0-100 in 5.4s",
+                "available_cities": ["Bangalore", "Mumbai", "Delhi"],
+                "features": ["Executive Rear Seat", "Mark Levinson Audio", "Massage Seats", "Lane Assist"],
+                "images": [
+                    "ls500h-front.jpg",
+                    "ls500h-side.jpg",
+                    "ls500h-interior.jpg",
+                    "ls500h-rear.jpg",
+                    "ls500h-dashboard.jpg",
+                    "ls500h-engine.jpg"
+                ]
+            },
+            {
+                "name": "Nissan GT-R",
+                "brand": "Nissan",
+                "category": "Sports",
+                "price_per_day": 13500,
+                "rating": 4.8,
+                "total_reviews": 88,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 4,
+                "year": 2023,
+                "engine": "3.8L V6 Twin Turbo",
+                "power": "565 HP",
+                "top_speed": "315 km/h",
+                "acceleration": "0-100 in 2.9s",
+                "available_cities": ["Mumbai", "Pune", "Delhi"],
+                "features": ["AWD", "Launch Control", "Nismo Aero Kit", "BOSE Audio"],
+                "images": [
+                    "gtr-front.jpg",
+                    "gtr-side.jpg",
+                    "gtr-interior.jpg",
+                    "gtr-rear.jpg",
+                    "gtr-dashboard.jpg",
+                    "gtr-engine.jpg"
+                ]
+            },
+            {
+                "name": "Range Rover Autobiography LWB",
+                "brand": "Land Rover",
+                "category": "Exotic",
+                "price_per_day": 16000,
+                "rating": 4.9,
+                "total_reviews": 92,
+                "transmission": "Automatic",
+                "fuel_type": "Petrol",
+                "seating": 5,
+                "year": 2023,
+                "engine": "4.4L V8 Twin Turbo",
+                "power": "523 HP",
+                "top_speed": "250 km/h",
+                "acceleration": "0-100 in 4.6s",
+                "available_cities": ["Delhi", "Hyderabad", "Mumbai"],
+                "features": ["Reclining Rear Seats", "Meridian Audio", "Massage Seats", "Air Suspension"],
+                "images": [
+                    "rangerover-front.jpg",
+                    "rangerover-side.jpg",
+                    "rangerover-interior.jpg",
+                    "rangerover-rear.jpg",
+                    "rangerover-dashboard.jpg",
+                    "rangerover-engine.jpg"
+                ]
+            }
+        ];
+
+        // Global variables
+        let filteredCars = [...carData];
+        let currentView = 'grid';
+        let currentPage = 1;
+        let carsPerPage = 9;
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        let comparison = JSON.parse(localStorage.getItem('comparison')) || [];
+
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 50
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            showLoadingSkeleton();
+            setTimeout(() => {
+                hideLoadingSkeleton();
+                renderCars();
+                updateCarCount();
+                initializeEventListeners();
+            }, 1000);
+        });
+
+        // Show loading skeleton
+        function showLoadingSkeleton() {
+            const skeleton = document.getElementById('loading-skeleton');
+            skeleton.innerHTML = '';
+            for (let i = 0; i < 6; i++) {
+                skeleton.innerHTML += `
+                    <div class="clean-card p-4 animate-pulse">
+                        <div class="bg-gray-200 h-48 rounded-lg mb-4"></div>
+                        <div class="bg-gray-200 h-6 rounded mb-2"></div>
+                        <div class="bg-gray-200 h-4 rounded mb-4"></div>
+                        <div class="flex justify-between">
+                            <div class="bg-gray-200 h-8 w-24 rounded"></div>
+                            <div class="bg-gray-200 h-8 w-20 rounded"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            skeleton.style.display = 'grid';
+        }
+
+        // Hide loading skeleton
+        function hideLoadingSkeleton() {
+            document.getElementById('loading-skeleton').style.display = 'none';
+        }
+
+        // Initialize event listeners
+        function initializeEventListeners() {
+            // Mobile filter toggle
+            document.getElementById('open-filters').addEventListener('click', () => {
+                document.getElementById('filter-sidebar').classList.add('open');
+            });
+
+            document.getElementById('close-filters').addEventListener('click', () => {
+                document.getElementById('filter-sidebar').classList.remove('open');
+            });
+
+            // Price range slider
+            const priceSlider = document.getElementById('price-range');
+            priceSlider.addEventListener('input', (e) => {
+                document.getElementById('price-display').textContent = parseInt(e.target.value).toLocaleString();
+                applyFilters();
+            });
+
+            // Category filters
+            document.querySelectorAll('.category-filter').forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+
+            // Brand filters
+            document.querySelectorAll('.brand-filter').forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+
+            // Transmission filters
+            document.querySelectorAll('.transmission-filter').forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+
+            // Fuel type filters
+            document.querySelectorAll('.fuel-filter').forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+
+            // Seating filters
+            document.querySelectorAll('.seating-filter').forEach(filter => {
+                filter.addEventListener('change', applyFilters);
+            });
+
+            // Sort dropdown
+            document.getElementById('sort-select').addEventListener('change', (e) => {
+                sortCars(e.target.value);
+            });
+
+            // View toggle
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentView = e.target.dataset.view;
+                    renderCars();
+                });
+            });
+
+            // Quick filters
+            document.querySelectorAll('.quick-filter').forEach(filter => {
+                filter.addEventListener('click', (e) => {
+                    applyQuickFilter(e.target.dataset.filter);
+                });
+            });
+
+            // Clear filters
+            document.getElementById('clear-filters').addEventListener('click', clearAllFilters);
+
+            // Quick view modal
+            document.getElementById('close-quick-view').addEventListener('click', () => {
+                document.getElementById('quick-view-modal').classList.remove('active');
+            });
+
+            // Comparison functionality
+            document.getElementById('compare-btn').addEventListener('click', showComparison);
+            document.getElementById('clear-comparison').addEventListener('click', clearComparison);
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const priceRange = parseInt(document.getElementById('price-range').value);
+            const selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked')).map(cb => cb.value);
+            const selectedBrands = Array.from(document.querySelectorAll('.brand-filter:checked')).map(cb => cb.value);
+            const selectedTransmission = document.querySelector('.transmission-filter:checked')?.value;
+            const selectedFuels = Array.from(document.querySelectorAll('.fuel-filter:checked')).map(cb => cb.value);
+            const selectedSeating = Array.from(document.querySelectorAll('.seating-filter:checked')).map(cb => parseInt(cb.value));
+
+            filteredCars = carData.filter(car => {
+                const priceMatch = car.price_per_day <= priceRange;
+                const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(car.category);
+                const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(car.brand);
+                const transmissionMatch = !selectedTransmission || selectedTransmission === 'all' || car.transmission === selectedTransmission;
+                const fuelMatch = selectedFuels.length === 0 || selectedFuels.includes(car.fuel_type);
+                const seatingMatch = selectedSeating.length === 0 || selectedSeating.includes(car.seating);
+
+                return priceMatch && categoryMatch && brandMatch && transmissionMatch && fuelMatch && seatingMatch;
+            });
+
+            currentPage = 1;
+            renderCars();
+            updateCarCount();
+        }
+
+        // Apply quick filter
+        function applyQuickFilter(filterType) {
+            clearAllFilters();
+            
+            switch(filterType) {
+                case 'under-10k':
+                    document.getElementById('price-range').value = 10000;
+                    document.getElementById('price-display').textContent = '10,000';
+                    break;
+                case 'luxury':
+                    document.querySelector('.category-filter[value="Luxury"]').checked = true;
+                    break;
+                case 'sports':
+                    document.querySelector('.category-filter[value="Sports"]').checked = true;
+                    break;
+                case 'electric':
+                    document.querySelector('.fuel-filter[value="Hybrid"]').checked = true;
+                    break;
+            }
+            
+            applyFilters();
+        }
+
+        // Clear all filters
+        function clearAllFilters() {
+            // Reset price range
+            document.getElementById('price-range').value = 25000;
+            document.getElementById('price-display').textContent = '25,000';
+            
+            // Uncheck all checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            
+            // Reset transmission to all
+            document.querySelector('.transmission-filter[value="all"]').checked = true;
+            
+            // Reset filters
+            filteredCars = [...carData];
+            currentPage = 1;
+            renderCars();
+            updateCarCount();
+        }
+
+        // Sort cars
+        function sortCars(sortBy) {
+            switch(sortBy) {
+                case 'price-low':
+                    filteredCars.sort((a, b) => a.price_per_day - b.price_per_day);
+                    break;
+                case 'price-high':
+                    filteredCars.sort((a, b) => b.price_per_day - a.price_per_day);
+                    break;
+                case 'rating':
+                    filteredCars.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'newest':
+                    filteredCars.sort((a, b) => b.year - a.year);
+                    break;
+                default:
+                    // Keep original order for popularity
+                    break;
+            }
+            renderCars();
+        }
+
+        // Render cars
+        function renderCars() {
+            const carsGrid = document.getElementById('cars-grid');
+            const carsList = document.getElementById('cars-list');
+            const noResults = document.getElementById('no-results');
+
+            // Hide all containers first
+            carsGrid.style.display = 'none';
+            carsList.style.display = 'none';
+            noResults.style.display = 'none';
+
+            if (filteredCars.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            }
+
+            if (currentView === 'grid') {
+                carsGrid.style.display = 'grid';
+                renderGridView();
+            } else {
+                carsList.style.display = 'block';
+                renderListView();
+            }
+        }
+
+        // Render grid view
+        function renderGridView() {
+            const carsGrid = document.getElementById('cars-grid');
+            const startIndex = (currentPage - 1) * carsPerPage;
+            const endIndex = startIndex + carsPerPage;
+            const carsToShow = filteredCars.slice(startIndex, endIndex);
+
+            if (currentPage === 1) {
+                carsGrid.innerHTML = '';
+            }
+
+            carsToShow.forEach((car, index) => {
+                const carCard = createCarCard(car, startIndex + index);
+                carsGrid.appendChild(carCard);
+            });
+
+            // Show load more button if there are more cars
+            const loadMoreBtn = document.getElementById('load-more');
+            if (endIndex < filteredCars.length) {
+                loadMoreBtn.style.display = 'block';
+                loadMoreBtn.onclick = () => {
+                    currentPage++;
+                    renderGridView();
+                    if ((currentPage * carsPerPage) >= filteredCars.length) {
+                        loadMoreBtn.style.display = 'none';
+                    }
+                };
+            } else {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+
+        // Render list view
+        function renderListView() {
+            const carsList = document.getElementById('cars-list');
+            carsList.innerHTML = '';
+
+            filteredCars.forEach((car, index) => {
+                const listItem = createCarListItem(car, index);
+                carsList.appendChild(listItem);
+            });
+        }
+
+        // Create car card
+        function createCarCard(car, index) {
+            const card = document.createElement('div');
+            card.className = 'car-card clean-card';
+            card.setAttribute('data-aos', 'fade-up');
+            card.setAttribute('data-aos-delay', (index * 50).toString());
+
+            const categoryClass = `badge-${car.category.toLowerCase()}`;
+            const isWishlisted = wishlist.includes(car.name);
+            const inComparison = comparison.some(c => c.name === car.name);
+
+            card.innerHTML = `
+                <div class="car-gallery relative">
+                    <img src="assets/car-images/${car.images[0]}" alt="${car.name}" class="w-full h-full object-cover">
+                    <button class="gallery-nav gallery-prev" onclick="previousImage(this, ${JSON.stringify(car.images).replace(/"/g, '&quot;')})">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="gallery-nav gallery-next" onclick="nextImage(this, ${JSON.stringify(car.images).replace(/"/g, '&quot;')})">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" onclick="toggleWishlist('${car.name}', this)">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    <div class="category-badge ${categoryClass}">${car.category}</div>
+                </div>
+                
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="text-xl font-bold text-gray-900 leading-tight">${car.name}</h3>
+                        <div class="flex items-center space-x-1 text-sm">
+                            <div class="rating-stars">
+                                ${generateStars(car.rating)}
+                            </div>
+                            <span class="text-gray-500">(${car.total_reviews})</span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2 text-sm text-gray-600 mb-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-cog mr-2 text-gray-400"></i>
+                            ${car.transmission}
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-gas-pump mr-2 text-gray-400"></i>
+                            ${car.fuel_type}
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-users mr-2 text-gray-400"></i>
+                            ${car.seating} Seats
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-tachometer-alt mr-2 text-gray-400"></i>
+                            ${car.power}
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="text-2xl font-bold text-green-600">₹${car.price_per_day.toLocaleString()}<span class="text-sm text-gray-500 font-normal">/day</span></div>
+                        <div class="text-sm text-gray-500">${car.available_cities.length} cities</div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button class="flex-1 btn-primary text-sm py-2" onclick="quickView('${car.name}')">
+                            Quick View
+                        </button>
+                        <button class="px-3 py-2 border-2 border-green-500 text-green-600 rounded-lg hover:bg-green-500 hover:text-white transition-all ${inComparison ? 'bg-green-500 text-white' : ''}" onclick="toggleComparison('${car.name}', this)">
+                            <i class="fas fa-balance-scale"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Create car list item
+        function createCarListItem(car, index) {
+            const item = document.createElement('div');
+            item.className = 'car-list-item';
+            item.setAttribute('data-aos', 'fade-right');
+            item.setAttribute('data-aos-delay', (index * 50).toString());
+
+            const isWishlisted = wishlist.includes(car.name);
+            const inComparison = comparison.some(c => c.name === car.name);
+
+            item.innerHTML = `
+                <div class="w-80 flex-shrink-0">
+                    <div class="relative">
+                        <img src="assets/car-images/${car.images[0]}" alt="${car.name}" class="w-full h-48 object-cover rounded-lg">
+                        <button class="wishlist-btn ${isWishlisted ? 'active' : ''}" onclick="toggleWishlist('${car.name}', this)">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                        <div class="category-badge badge-${car.category.toLowerCase()}">${car.category}</div>
+                    </div>
+                </div>
+                
+                <div class="flex-1 ml-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">${car.name}</h3>
+                            <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                <span><i class="fas fa-cog mr-1 text-gray-400"></i>${car.transmission}</span>
+                                <span><i class="fas fa-gas-pump mr-1 text-gray-400"></i>${car.fuel_type}</span>
+                                <span><i class="fas fa-users mr-1 text-gray-400"></i>${car.seating} Seats</span>
+                                <span><i class="fas fa-calendar mr-1 text-gray-400"></i>${car.year}</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-3xl font-bold text-green-600 mb-1">₹${car.price_per_day.toLocaleString()}</div>
+                            <div class="text-sm text-gray-500">per day</div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-4 text-sm">
+                        <div>
+                            <div class="text-gray-500">Engine</div>
+                            <div class="text-gray-900 font-semibold">${car.engine}</div>
+                        </div>
+                        <div>
+                            <div class="text-gray-500">Power</div>
+                            <div class="text-gray-900 font-semibold">${car.power}</div>
+                        </div>
+                        <div>
+                            <div class="text-gray-500">Top Speed</div>
+                            <div class="text-gray-900 font-semibold">${car.top_speed}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-1">
+                                <div class="rating-stars">${generateStars(car.rating)}</div>
+                                <span class="text-gray-500 text-sm">(${car.total_reviews} reviews)</span>
+                            </div>
+                            <div class="text-sm text-gray-500">${car.available_cities.join(', ')}</div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="btn-primary" onclick="quickView('${car.name}')">
+                                View Details
+                            </button>
+                            <button class="px-3 py-2 border-2 border-green-500 text-green-600 rounded-lg hover:bg-green-500 hover:text-white transition-all ${inComparison ? 'bg-green-500 text-white' : ''}" onclick="toggleComparison('${car.name}', this)">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return item;
+        }
+
+        // Generate star rating
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 !== 0;
+            let stars = '';
+
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+
+            if (halfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+
+            return stars;
+        }
+
+        // Image gallery navigation
+        let currentImageIndex = {};
+
+        function nextImage(button, images) {
+            const carCard = button.closest('.car-card, .car-list-item');
+            const img = carCard.querySelector('img');
+            const carName = carCard.querySelector('h3').textContent;
+            
+            if (!currentImageIndex[carName]) {
+                currentImageIndex[carName] = 0;
+            }
+            
+            currentImageIndex[carName] = (currentImageIndex[carName] + 1) % images.length;
+            img.src = `assets/car-images/${images[currentImageIndex[carName]]}`;
+        }
+
+        function previousImage(button, images) {
+            const carCard = button.closest('.car-card, .car-list-item');
+            const img = carCard.querySelector('img');
+            const carName = carCard.querySelector('h3').textContent;
+            
+            if (!currentImageIndex[carName]) {
+                currentImageIndex[carName] = 0;
+            }
+            
+            currentImageIndex[carName] = currentImageIndex[carName] === 0 ? images.length - 1 : currentImageIndex[carName] - 1;
+            img.src = `assets/car-images/${images[currentImageIndex[carName]]}`;
+        }
+
+        // Wishlist functionality
+        function toggleWishlist(carName, button) {
+            const index = wishlist.indexOf(carName);
+            if (index === -1) {
+                wishlist.push(carName);
+                button.classList.add('active');
+            } else {
+                wishlist.splice(index, 1);
+                button.classList.remove('active');
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        }
+
+        // Comparison functionality
+        function toggleComparison(carName, button) {
+            const car = carData.find(c => c.name === carName);
+            const index = comparison.findIndex(c => c.name === carName);
+            
+            if (index === -1) {
+                if (comparison.length < 3) {
+                    comparison.push(car);
+                    button.classList.add('bg-green-500', 'text-white');
+                    button.classList.remove('text-green-600');
+                } else {
+                    alert('You can compare up to 3 cars only');
+                    return;
+                }
+            } else {
+                comparison.splice(index, 1);
+                button.classList.remove('bg-green-500', 'text-white');
+                button.classList.add('text-green-600');
+            }
+            
+            localStorage.setItem('comparison', JSON.stringify(comparison));
+            updateComparisonBar();
+        }
+
+        // Update comparison bar
+        function updateComparisonBar() {
+            const comparisonBar = document.getElementById('comparison-bar');
+            const comparisonItems = document.getElementById('comparison-items');
+            
+            if (comparison.length > 0) {
+                comparisonBar.classList.add('active');
+                comparisonItems.innerHTML = comparison.map(car => `
+                    <div class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-sm text-white">
+                        ${car.name}
+                        <button onclick="removeFromComparison('${car.name}')" class="ml-2 text-white hover:text-red-200">×</button>
+                    </div>
+                `).join('');
+            } else {
+                comparisonBar.classList.remove('active');
+            }
+        }
+
+        // Remove from comparison
+        function removeFromComparison(carName) {
+            const index = comparison.findIndex(c => c.name === carName);
+            if (index !== -1) {
+                comparison.splice(index, 1);
+                localStorage.setItem('comparison', JSON.stringify(comparison));
+                updateComparisonBar();
+                
+                // Update button state
+                const buttons = document.querySelectorAll(`[onclick*="${carName}"]`);
+                buttons.forEach(button => {
+                    if (button.innerHTML.includes('balance-scale')) {
+                        button.classList.remove('bg-green-500', 'text-white');
+                        button.classList.add('text-green-600');
+                    }
+                });
+            }
+        }
+
+        // Clear comparison
+        function clearComparison() {
+            comparison = [];
+            localStorage.setItem('comparison', JSON.stringify(comparison));
+            updateComparisonBar();
+            
+            // Update all comparison buttons
+            document.querySelectorAll('[onclick*="toggleComparison"]').forEach(button => {
+                button.classList.remove('bg-green-500', 'text-white');
+                button.classList.add('text-green-600');
+            });
+        }
+
+        // Show comparison
+        function showComparison() {
+            if (comparison.length < 2) {
+                alert('Please select at least 2 cars to compare');
+                return;
+            }
+            
+            // Create comparison modal content
+            const modal = document.getElementById('quick-view-modal');
+            const content = document.getElementById('quick-view-content');
+            
+            content.innerHTML = `
+                <h2 class="text-3xl font-bold text-center mb-8 text-gray-900">Car Comparison</h2>
+                <div class="grid grid-cols-1 md:grid-cols-${comparison.length} gap-6">
+                    ${comparison.map(car => `
+                        <div class="text-center">
+                            <img src="assets/car-images/${car.images[0]}" alt="${car.name}" class="w-full h-48 object-cover rounded-xl mb-4">
+                            <h3 class="text-xl font-bold text-gray-900 mb-4">${car.name}</h3>
+                            <div class="space-y-2 text-sm text-left">
+                                <div class="flex justify-between border-b pb-1">
+                                    <span class="text-gray-600">Price/day:</span>
+                                    <span class="text-green-600 font-bold">₹${car.price_per_day.toLocaleString()}</span>
+                                </div>
+                                <div class="flex justify-between border-b pb-1">
+                                    <span class="text-gray-600">Engine:</span>
+                                    <span class="text-gray-900 font-medium">${car.engine}</span>
+                                </div>
+                                <div class="flex justify-between border-b pb-1">
+                                    <span class="text-gray-600">Power:</span>
+                                    <span class="text-gray-900 font-medium">${car.power}</span>
+                                </div>
+                                <div class="flex justify-between border-b pb-1">
+                                    <span class="text-gray-600">Top Speed:</span>
+                                    <span class="text-gray-900 font-medium">${car.top_speed}</span>
+                                </div>
+                                <div class="flex justify-between border-b pb-1">
+                                    <span class="text-gray-600">0-100:</span>
+                                    <span class="text-gray-900 font-medium">${car.acceleration}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Rating:</span>
+                                    <span class="text-yellow-600 font-bold">${car.rating}/5</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        // Quick view functionality
+        function quickView(carName) {
+            const car = carData.find(c => c.name === carName);
+            const modal = document.getElementById('quick-view-modal');
+            const content = document.getElementById('quick-view-content');
+            
+            content.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div>
+                        <div class="relative">
+                            <img src="assets/car-images/${car.images[0]}" alt="${car.name}" class="w-full h-64 object-cover rounded-xl" id="quick-view-image">
+                            <div class="flex space-x-2 mt-4 overflow-x-auto">
+                                ${car.images.map((img, index) => `
+                                    <img src="assets/car-images/${img}" alt="${car.name}" 
+                                         class="w-16 h-16 object-cover rounded-lg cursor-pointer opacity-60 hover:opacity-100 transition-opacity flex-shrink-0 ${index === 0 ? 'opacity-100 ring-2 ring-green-500' : ''}"
+                                         onclick="document.getElementById('quick-view-image').src = this.src; document.querySelectorAll('.ring-green-500').forEach(el => el.classList.remove('ring-2', 'ring-green-500')); this.classList.add('ring-2', 'ring-green-500');">
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-2">${car.name}</h2>
+                        <div class="flex items-center space-x-2 mb-4">
+                            <div class="rating-stars">${generateStars(car.rating)}</div>
+                            <span class="text-gray-600">(${car.total_reviews} reviews)</span>
+                        </div>
+                        
+                        <div class="text-3xl font-bold text-green-600 mb-6">₹${car.price_per_day.toLocaleString()}<span class="text-lg text-gray-500 font-normal">/day</span></div>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="text-gray-600">Engine</div>
+                                <div class="text-gray-900 font-semibold">${car.engine}</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="text-gray-600">Power</div>
+                                <div class="text-gray-900 font-semibold">${car.power}</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="text-gray-600">Top Speed</div>
+                                <div class="text-gray-900 font-semibold">${car.top_speed}</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="text-gray-600">0-100 km/h</div>
+                                <div class="text-gray-900 font-semibold">${car.acceleration}</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="text-gray-600">Transmission</div>
+                                <div class="text-gray-900 font-semibold">${car.transmission}</div>
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-lg">
+                                <div class="text-gray-600">Seating</div>
+                                <div class="text-gray-900 font-semibold">${car.seating} Seats</div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="text-gray-600 text-sm mb-2">Available in:</div>
+                            <div class="flex flex-wrap gap-2">
+                                ${car.available_cities.map(city => `
+                                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">${city}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="text-gray-600 text-sm mb-2">Features:</div>
+                            <div class="flex flex-wrap gap-2">
+                                ${car.features.map(feature => `
+                                    <span class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">${feature}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <button class="w-full btn-primary text-lg py-3">
+                            <i class="fas fa-calendar mr-2"></i>Book Now
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        // Update car count
+        function updateCarCount() {
+            document.getElementById('car-count').textContent = filteredCars.length;
+        }
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            // Add mobile menu functionality if needed
+        });
+
+        // Initialize comparison bar
+        updateComparisonBar();
+
+console.log('🚗 Velocity Hunters Cars Page - Light Mode Loaded! ✨');
+    </script>
+</body>
+</html>

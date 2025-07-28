@@ -16,13 +16,17 @@
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- jspdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    
     <!-- Custom Styles -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
         
         :root {
-            --primary-green: #10B981;
-            --light-green: #34D399;
+            --primary-green: #38bdf8; /* skyblue */
+            --light-green: #7dd3fc;
             --accent-yellow: #F59E0B;
             --bright-yellow: #FCD34D;
             --error-red: #EF4444;
@@ -86,7 +90,7 @@
         }
         
         .btn-primary:hover {
-            background: #059669;
+            background: #0ea5e9;
             transform: translateY(-1px);
         }
         
@@ -324,6 +328,36 @@
             overflow-y: auto;
             box-shadow: 0 20px 25px rgba(0, 0, 0, 0.2);
         }
+
+        /* Booking Modal */
+        .booking-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001; /* Higher z-index than quick view modal */
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .booking-modal.active {
+            display: flex;
+        }
+        
+        .booking-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 700px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
         
         /* View Toggle */
         .view-toggle {
@@ -419,7 +453,7 @@
         
         .form-input:focus {
             border-color: var(--primary-green);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
         }
         
         /* Checkbox & Radio Styles */
@@ -446,6 +480,14 @@
         
         .breadcrumb a:hover {
             text-decoration: underline;
+        }
+
+        /* Booking form steps */
+        .booking-step {
+            display: none;
+        }
+        .booking-step.active {
+            display: block;
         }
     </style>
 </head>
@@ -474,7 +516,14 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-cars pt-24 pb-16">
+    <section class="hero-cars pt-24 pb-16 relative overflow-hidden">
+        <!-- Background Video -->
+        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0" id="hero-bg-video">
+            <source src="assets/videos/hero-video.mp4" type="video/mp4">
+        </video>
+        <!-- Overlay for readability (optional, can adjust color/opacity) -->
+        <div class="absolute inset-0 bg-black bg-opacity-40 z-10 pointer-events-none"></div>
+        <!-- Hero Content should be above video -->
         <div class="container mx-auto px-4">
             <!-- Breadcrumb -->
             <div class="mb-8 breadcrumb" data-aos="fade-down">
@@ -829,6 +878,135 @@
             </div>
         </div>
     </div>
+
+    <!-- Booking Modal -->
+    <div class="booking-modal" id="booking-modal">
+        <div class="booking-content relative">
+            <button class="absolute top-4 right-4 bg-red-500 text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-red-600 transition-colors" id="close-booking-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <h2 class="text-3xl font-bold text-center mb-6 text-gray-900" id="booking-modal-title">Book Your Ride</h2>
+            <div id="booking-form-steps">
+                <!-- Step 1: User Credentials -->
+                <div class="booking-step active" id="booking-step-1">
+                    <h3 class="text-2xl font-semibold mb-4 text-green-700">Step 1: Your Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="full-name" class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+                            <input type="text" id="full-name" class="form-input w-full" placeholder="John Doe">
+                        </div>
+                        <div>
+                            <label for="mobile-number" class="block text-gray-700 text-sm font-bold mb-2">Mobile Number</label>
+                            <input type="tel" id="mobile-number" class="form-input w-full" placeholder="+91 9876543210">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+                        <input type="email" id="email" class="form-input w-full" placeholder="john.doe@example.com">
+                    </div>
+                    <div class="mb-4">
+                        <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Residential Address</label>
+                        <textarea id="address" class="form-input w-full" rows="3" placeholder="123, Main Street, City, State, Pincode"></textarea>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="aadhar-no" class="block text-gray-700 text-sm font-bold mb-2">Aadhar Number</label>
+                            <input type="text" id="aadhar-no" class="form-input w-full" placeholder="XXXX XXXX XXXX">
+                        </div>
+                        <div>
+                            <label for="driving-license-no" class="block text-gray-700 text-sm font-bold mb-2">Driving License Number</label>
+                            <input type="text" id="driving-license-no" class="form-input w-full" placeholder="DL-XXXX-XXXX-XXXX">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="user-photo" class="block text-gray-700 text-sm font-bold mb-2">Upload Your Photo</label>
+                        <input type="file" id="user-photo" class="form-input w-full py-2 px-3" accept="image/*">
+                    </div>
+                    <div class="flex justify-end">
+                        <button class="btn-primary" onclick="nextBookingStep()">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Pickup & Return -->
+                <div class="booking-step" id="booking-step-2">
+                    <h3 class="text-2xl font-semibold mb-4 text-green-700">Step 2: Pickup & Return Details</h3>
+                    <div class="mb-4">
+                        <label for="pickup-city" class="block text-gray-700 text-sm font-bold mb-2">Pickup City</label>
+                        <select id="pickup-city" class="form-input w-full">
+                            <option value="">Select City</option>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="pickup-date" class="block text-gray-700 text-sm font-bold mb-2">Pickup Date</label>
+                            <input type="date" id="pickup-date" class="form-input w-full">
+                        </div>
+                        <div>
+                            <label for="pickup-time" class="block text-gray-700 text-sm font-bold mb-2">Pickup Time</label>
+                            <input type="time" id="pickup-time" class="form-input w-full">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label for="return-date" class="block text-gray-700 text-sm font-bold mb-2">Return Date</label>
+                            <input type="date" id="return-date" class="form-input w-full">
+                        </div>
+                        <div>
+                            <label for="return-time" class="block text-gray-700 text-sm font-bold mb-2">Return Time</label>
+                            <input type="time" id="return-time" class="form-input w-full">
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="btn-outline" onclick="prevBookingStep()">Previous</button>
+                        <button class="btn-primary" onclick="nextBookingStep()">Next</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Payment Mode -->
+                <div class="booking-step" id="booking-step-3">
+                    <h3 class="text-2xl font-semibold mb-4 text-green-700">Step 3: Payment</h3>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Choose Payment Option</label>
+                        <div class="space-y-3">
+                            <label class="flex items-center cursor-pointer p-4 border border-gray-300 rounded-lg">
+                                <input type="radio" name="payment-method" value="cash" class="form-radio mr-3" checked>
+                                <i class="fas fa-money-bill-wave text-green-600 text-xl mr-3"></i>
+                                <span class="text-lg font-medium">Pay by Cash at Pickup Location</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer p-4 border border-gray-300 rounded-lg opacity-50 cursor-not-allowed">
+                                <input type="radio" name="payment-method" value="upi" class="form-radio mr-3" disabled>
+                                <i class="fas fa-qrcode text-blue-600 text-xl mr-3"></i>
+                                <span class="text-lg font-medium">UPI / Online Payment <span class="text-red-500 text-sm">(Coming Soon)</span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button class="btn-outline" onclick="prevBookingStep()">Previous</button>
+                        <button class="btn-primary" onclick="confirmBooking()">Confirm Booking</button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Booking Confirmation (hidden initially) -->
+                <div class="booking-step" id="booking-step-4">
+                    <div class="text-center py-8">
+                        <i class="fas fa-check-circle text-green-500 text-7xl mb-4 animate-bounce"></i>
+                        <h3 class="text-3xl font-bold text-gray-900 mb-4">Booking Successful!</h3>
+                        <p class="text-gray-600 mb-6">Your booking for <span id="booked-car-name" class="font-semibold text-green-600"></span> has been confirmed.</p>
+                        <p class="text-gray-600 mb-8">A confirmation email has been sent to your registered email address.</p>
+                        <button class="btn-primary" onclick="downloadConfirmation()">
+                            <i class="fas fa-download mr-2"></i>Download Confirmation
+                        </button>
+                        <button class="btn-outline mt-4" onclick="closeBookingModal()">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Comparison Bar -->
     <div class="comparison-bar" id="comparison-bar">
@@ -1255,6 +1433,8 @@
         let carsPerPage = 9;
         let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
         let comparison = JSON.parse(localStorage.getItem('comparison')) || [];
+        let currentCar = null; // To store the car being booked
+        let currentBookingStep = 1;
 
         // Initialize AOS
         AOS.init({
@@ -1271,6 +1451,7 @@
                 renderCars();
                 updateCarCount();
                 initializeEventListeners();
+                updateComparisonBar(); // Initialize comparison bar on load
             }, 1000);
         });
 
@@ -1371,6 +1552,13 @@
             document.getElementById('close-quick-view').addEventListener('click', () => {
                 document.getElementById('quick-view-modal').classList.remove('active');
             });
+
+            // Booking modal
+            document.getElementById('close-booking-modal').addEventListener('click', () => {
+                document.getElementById('booking-modal').classList.remove('active');
+                resetBookingForm();
+            });
+
 
             // Comparison functionality
             document.getElementById('compare-btn').addEventListener('click', showComparison);
@@ -1681,7 +1869,6 @@
                     </div>
                 </div>
             `;
-
             return item;
         }
 
@@ -1800,8 +1987,9 @@
                 updateComparisonBar();
                 
                 // Update button state
-                const buttons = document.querySelectorAll(`[onclick*="${carName}"]`);
+                const buttons = document.querySelectorAll(`[onclick*="toggleComparison('${carName}')"]`);
                 buttons.forEach(button => {
+                    // Check if the button actually has the comparison icon to avoid changing wishlist buttons
                     if (button.innerHTML.includes('balance-scale')) {
                         button.classList.remove('bg-green-500', 'text-white');
                         button.classList.add('text-green-600');
@@ -1878,6 +2066,7 @@
         // Quick view functionality
         function quickView(carName) {
             const car = carData.find(c => c.name === carName);
+            currentCar = car; // Set the current car for booking
             const modal = document.getElementById('quick-view-modal');
             const content = document.getElementById('quick-view-content');
             
@@ -1905,7 +2094,7 @@
                         
                         <div class="text-3xl font-bold text-green-600 mb-6">₹${car.price_per_day.toLocaleString()}<span class="text-lg text-gray-500 font-normal">/day</span></div>
                         
-                        <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 text-sm">
                             <div class="bg-gray-50 p-3 rounded-lg">
                                 <div class="text-gray-600">Engine</div>
                                 <div class="text-gray-900 font-semibold">${car.engine}</div>
@@ -1950,7 +2139,7 @@
                             </div>
                         </div>
                         
-                        <button class="w-full btn-primary text-lg py-3">
+                        <button class="w-full btn-primary text-lg py-3" onclick="openBookingModal()">
                             <i class="fas fa-calendar mr-2"></i>Book Now
                         </button>
                     </div>
@@ -1970,8 +2159,344 @@
             // Add mobile menu functionality if needed
         });
 
-        // Initialize comparison bar
-        updateComparisonBar();
+        // Booking System Functions
+        function openBookingModal() {
+            document.getElementById('quick-view-modal').classList.remove('active'); // Close quick view
+            document.getElementById('booking-modal').classList.add('active');
+            document.getElementById('booking-modal-title').textContent = `Book ${currentCar.name}`;
+            populatePickupCities();
+            showBookingStep(1); // Start from step 1
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.remove('active');
+            resetBookingForm();
+        }
+
+        function showBookingStep(step) {
+            document.querySelectorAll('.booking-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`booking-step-${step}`).classList.add('active');
+            currentBookingStep = step;
+        }
+
+        function nextBookingStep() {
+            if (currentBookingStep === 1) {
+                if (!validateStep1()) return;
+                showBookingStep(2);
+            } else if (currentBookingStep === 2) {
+                if (!validateStep2()) return;
+                showBookingStep(3);
+            }
+        }
+
+        function prevBookingStep() {
+            if (currentBookingStep === 2) {
+                showBookingStep(1);
+            } else if (currentBookingStep === 3) {
+                showBookingStep(2);
+            }
+        }
+
+        function validateStep1() {
+            const fullName = document.getElementById('full-name').value;
+            const mobileNumber = document.getElementById('mobile-number').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+            const aadharNo = document.getElementById('aadhar-no').value;
+            const drivingLicenseNo = document.getElementById('driving-license-no').value;
+            const userPhoto = document.getElementById('user-photo').files.length;
+
+            if (!fullName || !mobileNumber || !email || !address || !aadharNo || !drivingLicenseNo || userPhoto === 0) {
+                alert('Please fill in all personal details and upload your photo.');
+                return false;
+            }
+            if (!/^\d{10}$/.test(mobileNumber)) {
+                alert('Please enter a valid 10-digit mobile number.');
+                return false;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert('Please enter a valid email address.');
+                return false;
+            }
+            if (!/^\d{4}\s?\d{4}\s?\d{4}$/.test(aadharNo)) {
+                alert('Please enter a valid 12-digit Aadhar number (e.g., XXXX XXXX XXXX).');
+                return false;
+            }
+            // Basic DL validation, could be more complex
+            if (!drivingLicenseNo) {
+                alert('Please enter your Driving License number.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function validateStep2() {
+            const pickupCity = document.getElementById('pickup-city').value;
+            const pickupDate = document.getElementById('pickup-date').value;
+            const pickupTime = document.getElementById('pickup-time').value;
+            const returnDate = document.getElementById('return-date').value;
+            const returnTime = document.getElementById('return-time').value;
+
+            if (!pickupCity || !pickupDate || !pickupTime || !returnDate || !returnTime) {
+                alert('Please fill in all pickup and return details.');
+                return false;
+            }
+
+            const pDate = new Date(`${pickupDate}T${pickupTime}`);
+            const rDate = new Date(`${returnDate}T${returnTime}`);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0); // Reset time for comparison
+
+            if (pDate < today) {
+                alert('Pickup date cannot be in the past.');
+                return false;
+            }
+            if (rDate <= pDate) {
+                alert('Return date and time must be after pickup date and time.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function populatePickupCities() {
+            const pickupCitySelect = document.getElementById('pickup-city');
+            pickupCitySelect.innerHTML = '<option value="">Select City</option>'; // Clear existing options
+            const uniqueCities = [...new Set(currentCar.available_cities)];
+            uniqueCities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                pickupCitySelect.appendChild(option);
+            });
+        }
+
+        function confirmBooking() {
+            // Here you would typically send data to a backend server
+            // For this example, we'll just simulate success
+            console.log('Booking Confirmed!');
+            console.log('Car:', currentCar.name);
+            console.log('User Details:', {
+                fullName: document.getElementById('full-name').value,
+                mobileNumber: document.getElementById('mobile-number').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value,
+                aadharNo: document.getElementById('aadhar-no').value,
+                drivingLicenseNo: document.getElementById('driving-license-no').value,
+                userPhoto: document.getElementById('user-photo').files[0]?.name
+            });
+            console.log('Pickup Details:', {
+                pickupCity: document.getElementById('pickup-city').value,
+                pickupDate: document.getElementById('pickup-date').value,
+                pickupTime: document.getElementById('pickup-time').value,
+                returnDate: document.getElementById('return-date').value,
+                returnTime: document.getElementById('return-time').value
+            });
+            console.log('Payment Method:', document.querySelector('input[name="payment-method"]:checked').value);
+
+            document.getElementById('booked-car-name').textContent = currentCar.name;
+            showBookingStep(4); // Show confirmation step
+        }
+
+               async function downloadConfirmation() {
+            // Ensure jsPDF is loaded
+            if (typeof window.jspdf === 'undefined' && typeof window.html2canvas === 'undefined') {
+                alert('PDF generation library not loaded. Please try again or refresh the page.');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const bookingDetails = {
+                carName: currentCar.name,
+                brand: currentCar.brand,
+                category: currentCar.category,
+                pricePerDay: currentCar.price_per_day,
+                transmission: currentCar.transmission,
+                fuelType: currentCar.fuel_type,
+                seating: currentCar.seating,
+                engine: currentCar.engine,
+                power: currentCar.power,
+                topSpeed: currentCar.top_speed,
+                acceleration: currentCar.acceleration,
+
+                userName: document.getElementById('full-name').value,
+                userMobile: document.getElementById('mobile-number').value,
+                userEmail: document.getElementById('email').value,
+                userAddress: document.getElementById('address').value,
+                userAadhar: document.getElementById('aadhar-no').value,
+                userDrivingLicense: document.getElementById('driving-license-no').value,
+
+                pickupCity: document.getElementById('pickup-city').value,
+                pickupDate: document.getElementById('pickup-date').value,
+                pickupTime: document.getElementById('pickup-time').value,
+                returnDate: document.getElementById('return-date').value,
+                returnTime: document.getElementById('return-time').value,
+
+                paymentMethod: document.querySelector('input[name="payment-method"]:checked').value === 'cash' ? 'Cash at Pickup Location' : 'UPI / Online Payment (Coming Soon)',
+                bookingDate: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' }),
+                bookingTime: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
+            };
+
+            let y = 20; // Y-coordinate for text
+
+            // Add Header
+            doc.setFontSize(24);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor('#10B981'); // Primary green
+            doc.text('Velocity Hunters', 105, y, { align: 'center' });
+            y += 10;
+            doc.setFontSize(14);
+            doc.text('Booking Confirmation', 105, y, { align: 'center' });
+            y += 15;
+
+            // Horizontal line
+            doc.setDrawColor('#D1D5DB'); // Border gray
+            doc.line(20, y, 190, y);
+            y += 10;
+
+            // Car Details
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor('#111827'); // Text black
+            doc.text('Car Details:', 20, y);
+            y += 8;
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor('#374151'); // Gray-700
+
+            doc.text(`Vehicle: ${bookingDetails.carName}`, 20, y); y += 7;
+            doc.text(`Brand: ${bookingDetails.brand}`, 20, y); y += 7;
+            doc.text(`Category: ${bookingDetails.category}`, 20, y); y += 7;
+            doc.text(`Price per day: ₹${bookingDetails.pricePerDay.toLocaleString()}`, 20, y); y += 7;
+            doc.text(`Transmission: ${bookingDetails.transmission}`, 20, y); y += 7;
+            doc.text(`Fuel Type: ${bookingDetails.fuelType}`, 20, y); y += 7;
+            doc.text(`Seating Capacity: ${bookingDetails.seating} seats`, 20, y); y += 7;
+            doc.text(`Engine: ${bookingDetails.engine}`, 20, y); y += 7;
+            doc.text(`Power: ${bookingDetails.power}`, 20, y); y += 7;
+            doc.text(`Top Speed: ${bookingDetails.topSpeed}`, 20, y); y += 7;
+            doc.text(`Acceleration: ${bookingDetails.acceleration}`, 20, y); y += 15;
+
+            // User Details
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Customer Details:', 20, y);
+            y += 8;
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Name: ${bookingDetails.userName}`, 20, y); y += 7;
+            doc.text(`Mobile: ${bookingDetails.userMobile}`, 20, y); y += 7;
+            doc.text(`Email: ${bookingDetails.userEmail}`, 20, y); y += 7;
+            doc.text(`Address: ${bookingDetails.userAddress}`, 20, y); y += 7;
+            doc.text(`Aadhar No: ${bookingDetails.userAadhar}`, 20, y); y += 7;
+            doc.text(`Driving License No: ${bookingDetails.userDrivingLicense}`, 20, y); y += 15;
+
+            // User Photo (if available)
+            const userPhotoFile = document.getElementById('user-photo').files[0];
+            if (userPhotoFile) {
+                doc.setFontSize(16);
+                doc.setFont('helvetica', 'bold');
+                doc.text('Customer Photo:', 20, y);
+                y += 8;
+
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imgData = event.target.result;
+                    const img = new Image();
+                    img.src = imgData;
+                    img.onload = () => {
+                        // Calculate aspect ratio to fit image within a certain size (e.g., 50x50mm)
+                        const maxWidth = 50;
+                        const maxHeight = 50;
+                        let imgWidth = img.width;
+                        let imgHeight = img.height;
+
+                        if (imgWidth > maxWidth) {
+                            imgHeight *= maxWidth / imgWidth;
+                            imgWidth = maxWidth;
+                        }
+                        if (imgHeight > maxHeight) {
+                            imgWidth *= maxHeight / imgHeight;
+                            imgHeight = maxHeight;
+                        }
+
+                        doc.addImage(imgData, 'JPEG', 20, y, imgWidth, imgHeight);
+                        y += imgHeight + 15; // Move Y past the image
+
+                        // Add the rest of the details after the image is loaded
+                        addBookingAndPickupDetails(doc, y, bookingDetails);
+                        doc.save(`VelocityHunters_Booking_${bookingDetails.userName.replace(/\s/g, '_')}.pdf`);
+                    };
+                };
+                reader.readAsDataURL(userPhotoFile);
+            } else {
+                // If no photo, add booking details immediately
+                addBookingAndPickupDetails(doc, y, bookingDetails);
+                doc.save(`VelocityHunters_Booking_${bookingDetails.userName.replace(/\s/g, '_')}.pdf`);
+            }
+        }
+
+        function addBookingAndPickupDetails(doc, y, bookingDetails) {
+            // Pickup & Return Information
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Pickup & Return Information:', 20, y);
+            y += 8;
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Pickup City: ${bookingDetails.pickupCity}`, 20, y); y += 7;
+            doc.text(`Pickup Date & Time: ${bookingDetails.pickupDate} at ${bookingDetails.pickupTime}`, 20, y); y += 7;
+            doc.text(`Return Date & Time: ${bookingDetails.returnDate} at ${bookingDetails.returnTime}`, 20, y); y += 15;
+
+            // Payment Details
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Payment Details:', 20, y);
+            y += 8;
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Method: ${bookingDetails.paymentMethod}`, 20, y); y += 15;
+
+            // Booking Information
+            doc.setFontSize(16);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Booking Information:', 20, y);
+            y += 8;
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Booking Date: ${bookingDetails.bookingDate}`, 20, y); y += 7;
+            doc.text(`Booking Time: ${bookingDetails.bookingTime}`, 20, y); y += 15;
+
+            // Footer
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'italic');
+            doc.setTextColor('#6B7280'); // Muted gray
+            doc.text('Thank you for choosing Velocity Hunters! We look forward to serving you.', 105, 280, { align: 'center' });
+        }
+
+
+        function resetBookingForm() {
+            document.getElementById('full-name').value = '';
+            document.getElementById('mobile-number').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('aadhar-no').value = '';
+            document.getElementById('driving-license-no').value = '';
+            document.getElementById('user-photo').value = ''; // Clear file input
+
+            document.getElementById('pickup-city').value = '';
+            document.getElementById('pickup-date').value = '';
+            document.getElementById('pickup-time').value = '';
+            document.getElementById('return-date').value = '';
+            document.getElementById('return-time').value = '';
+
+            document.querySelector('input[name="payment-method"][value="cash"]').checked = true;
+
+            showBookingStep(1); // Reset to the first step
+        }
+
 
 console.log('🚗 Velocity Hunters Cars Page - Light Mode Loaded! ✨');
     </script>

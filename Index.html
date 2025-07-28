@@ -18,15 +18,22 @@
     
     <!-- Custom Styles -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap');
         
         :root {
-            --primary-blue: #00D4FF;
-            --primary-pink: #FF1744;
-            --secondary-pink: #E91E63;
-            --accent-pink: #FF6B9D;
-            --deep-space: #0A0A0A;
-            --gold: #FFD700;
+            --primary-blue: #007BFF; /* Sky Blue */
+            --accent-yellow: #FFC107; /* Yellow */
+            --text-black: #212529; /* Dark text for light mode */
+            --light-gray: #F8F9FA; /* Off-white background */
+            --medium-gray: #DEE2E6; /* Slightly darker gray for borders */
+            --white: #FFFFFF;
+            --success-green: #28A745;
+            --info-blue: #17A2B8;
+            --light-blue: #ADD8E6;
+            --dark-blue: #0056B3;
+            --fleet-card-bg: #E3F2FD; /* Lighter blue for fleet cards */
+            --testimonial-bg: #FFFDE7; /* Light yellow for testimonials */
+            --choose-us-bg: #E8F5E9; /* Light green for why choose us */
         }
         
         * {
@@ -36,14 +43,14 @@
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            background: var(--deep-space);
-            color: white;
+            background: var(--light-gray);
+            color: var(--text-black);
         }
         
         .orbitron {
-            font-family: 'Orbitron', monospace;
+            font-family: 'Poppins', sans-serif; /* Changed to Poppins for a cleaner look */
         }
         
         /* Custom Scrollbar */
@@ -52,83 +59,77 @@
         }
         
         ::-webkit-scrollbar-track {
-            background: #1a1a1a;
+            background: #E9ECEF;
         }
         
         ::-webkit-scrollbar-thumb {
-            background: var(--primary-pink);
+            background: var(--primary-blue);
             border-radius: 4px;
         }
         
-        /* Hero Video Styles */
-        .hero-video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -2;
+        /* Hero Video Styles - Removed for light mode, replaced with static image/color */
+        .hero-section {
+            color: var(--white);
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        /* Overlay for hero section */
         .hero-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgba(255, 23, 68, 0.3), rgba(233, 30, 99, 0.2), rgba(10, 10, 10, 0.7));
-            z-index: -1;
+            background: rgba(0, 0, 0, 0.1); /* Subtle overlay */
+            z-index: 0;
         }
         
-        /* Glassmorphism Effect */
+        /* Glassmorphism Effect for light mode */
         .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
         
-        /* Glowing Effects */
-        .glow-pink {
-            box-shadow: 0 0 30px rgba(255, 23, 68, 0.5);
+        /* Glowing Effects - Adjusted for light mode, less intense */
+        .glow-blue {
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
         }
         
-        .glow-accent {
-            box-shadow: 0 0 30px rgba(255, 107, 157, 0.5);
+        .glow-yellow {
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
         }
         
-        .glow-gold {
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        .glow-green {
+            box-shadow: 0 0 20px rgba(40, 167, 69, 0.3);
         }
         
-        /* Animated Background */
+        /* Animated Background - Removed for light mode */
         .animated-bg {
-            background: linear-gradient(-45deg, #0A0A0A, #1a1a2e, #2e1a2e, #1a0f1a);
-            background-size: 400% 400%;
-            animation: gradientShift 15s ease infinite;
+            background: var(--light-gray); /* Simple background for light mode */
         }
         
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* Floating Animation */
+        /* Floating Animation - Still relevant for some elements */
         .float {
             animation: float 6s ease-in-out infinite;
         }
         
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-10px); }
         }
         
         /* Typewriter Effect */
         .typewriter {
             overflow: hidden;
-            border-right: 2px solid var(--primary-pink);
+            border-right: 2px solid var(--primary-blue);
             white-space: nowrap;
             animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
         }
@@ -140,7 +141,7 @@
         
         @keyframes blink-caret {
             from, to { border-color: transparent; }
-            50% { border-color: var(--primary-pink); }
+            50% { border-color: var(--primary-blue); }
         }
         
         /* Pulse Animation */
@@ -149,19 +150,24 @@
         }
         
         @keyframes pulseGlow {
-            from { box-shadow: 0 0 20px rgba(255, 23, 68, 0.4); }
-            to { box-shadow: 0 0 40px rgba(255, 23, 68, 0.8); }
+            from { box-shadow: 0 0 15px rgba(0, 123, 255, 0.2); }
+            to { box-shadow: 0 0 25px rgba(0, 123, 255, 0.6); }
         }
         
         /* Car Card Hover Effects */
         .car-card {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease-in-out;
             position: relative;
             overflow: hidden;
+            background: var(--fleet-card-bg); /* Changed for fleet section */
+            border: 1px solid var(--medium-gray);
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
         .car-card:hover {
-            transform: translateY(-15px) scale(1.02);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
         }
         
         .car-card::before {
@@ -171,8 +177,8 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 23, 68, 0.3), transparent);
-            transition: left 0.6s;
+            background: linear-gradient(90deg, transparent, rgba(0, 123, 255, 0.1), transparent);
+            transition: left 0.5s;
             z-index: 1;
         }
         
@@ -182,69 +188,74 @@
         
         /* Brand Logo Animation */
         .brand-logo {
-            transition: all 0.3s ease;
-            filter: grayscale(100%);
+            transition: all 0.2s ease;
+            filter: grayscale(80%);
+            opacity: 0.7;
         }
         
         .brand-logo:hover {
-            filter: grayscale(0%) brightness(1.2);
-            transform: scale(1.1);
+            filter: grayscale(0%) brightness(1.0);
+            transform: scale(1.05);
+            opacity: 1;
         }
         
         /* Stats Counter Animation */
         .counter {
             font-size: 3rem;
-            font-weight: 900;
-            color: var(--primary-pink);
+            font-weight: 800;
+            color: var(--primary-blue);
         }
         
         /* Button Animations */
         .btn-primary {
-            background: linear-gradient(45deg, var(--primary-pink), var(--secondary-pink));
-            transition: all 0.3s ease;
+            background: linear-gradient(45deg, var(--primary-blue), var(--dark-blue));
+            color: var(--white);
+            transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
-        }
-        
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, var(--secondary-pink), var(--accent-pink));
-            transition: left 0.3s ease;
-            z-index: -1;
-        }
-        
-        .btn-primary:hover::before {
-            left: 0;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 23, 68, 0.4);
+            background: linear-gradient(45deg, var(--dark-blue), var(--primary-blue));
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--accent-yellow);
+            color: var(--text-black);
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #E0A800;
         }
         
         /* Custom Input Styles */
         .custom-input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 23, 68, 0.3);
-            transition: all 0.3s ease;
+            background: var(--white);
+            border: 1px solid var(--medium-gray);
+            color: var(--text-black);
+            transition: all 0.2s ease;
         }
         
         .custom-input:focus {
-            border-color: var(--primary-pink);
-            box-shadow: 0 0 15px rgba(255, 23, 68, 0.3);
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
             outline: none;
         }
         
         /* Scroll Reveal Animation */
         .reveal {
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
         }
         
         .reveal.active {
@@ -255,27 +266,27 @@
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .hero-content h1 {
-                font-size: 2.5rem !important;
+                font-size: 2.2rem !important;
             }
             
             .counter {
-                font-size: 2rem !important;
+                font-size: 1.8rem !important;
             }
             
             .search-container {
-                padding: 1.5rem !important;
+                padding: 1rem !important;
             }
         }
         
         /* Loading Animation */
         .loading {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
             border-radius: 50%;
-            border-top-color: var(--primary-pink);
-            animation: spin 1s ease-in-out infinite;
+            border-top-color: var(--white);
+            animation: spin 0.8s linear infinite;
         }
         
         @keyframes spin {
@@ -284,25 +295,25 @@
         
         /* Hero Title - Visible Below Header */
         .hero-title {
-            font-size: 5rem;
+            font-size: 4rem;
             line-height: 1.1;
             white-space: nowrap;
-            margin-top: 120px;
+            margin-top: 80px; /* Adjust for navbar height */
             position: relative;
-            z-index: 10;
+            z-index: 1;
         }
         
         @media (max-width: 768px) {
             .hero-title {
-                font-size: 3rem;
-                margin-top: 100px;
+                font-size: 2rem;
+                margin-top: 70px;
             }
         }
         
         @media (max-width: 480px) {
             .hero-title {
-                font-size: 2.2rem;
-                margin-top: 90px;
+                font-size: 1.8rem;
+                margin-top: 60px;
             }
         }
         
@@ -314,8 +325,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.4); /* Lighter overlay */
+            backdrop-filter: blur(5px); /* Less blur */
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -326,15 +337,15 @@
         }
         
         .city-modal-content {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
+            background: var(--white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 15px;
             padding: 2rem;
-            max-width: 800px;
+            max-width: 700px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
         
         .city-option {
@@ -342,37 +353,37 @@
             align-items: center;
             padding: 1rem;
             margin: 0.5rem 0;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
+            background: var(--light-gray);
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             border: 1px solid transparent;
         }
         
         .city-option:hover {
-            background: rgba(255, 23, 68, 0.2);
-            border-color: var(--primary-pink);
-            transform: translateX(10px);
+            background: var(--medium-gray);
+            border-color: var(--primary-blue);
+            transform: translateX(5px);
         }
         
         .city-image {
-            width: 80px;
-            height: 60px;
+            width: 70px;
+            height: 50px;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 8px;
             margin-right: 1rem;
         }
         
         .city-info h3 {
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 0.25rem;
+            color: var(--text-black);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.1rem;
         }
         
         .city-info p {
-            color: #ccc;
-            font-size: 0.9rem;
+            color: #6C757D;
+            font-size: 0.8rem;
         }
         
         /* Close button */
@@ -380,44 +391,45 @@
             position: absolute;
             top: 0.8rem;
             right: 0.8rem;
-            background: var(--primary-pink);
+            background: var(--primary-blue);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
         }
         
         .close-modal:hover {
-            background: var(--secondary-pink);
-            transform: scale(1.1);
+            background: var(--dark-blue);
+            transform: scale(1.05);
         }
         
         /* City selector button */
         .city-selector-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 23, 68, 0.3);
-            color: white;
-            padding: 1rem;
-            border-radius: 12px;
+            background: var(--white);
+            border: 1px solid var(--medium-gray);
+            color: var(--text-black);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             text-align: left;
             width: 100%;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify: space-between;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         
         .city-selector-btn:hover {
-            border-color: var(--primary-pink);
-            box-shadow: 0 0 15px rgba(255, 23, 68, 0.3);
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
         }
 
         /* Premium Date Picker Styles - Compact Version */
@@ -426,24 +438,25 @@
         }
 
         .date-picker-input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 23, 68, 0.3);
-            color: white;
-            padding: 1rem;
-            border-radius: 12px;
+            background: var(--white);
+            border: 1px solid var(--medium-gray);
+            color: var(--text-black);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: relative;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
-
+        
         .date-picker-input:hover,
         .date-picker-input.active {
-            border-color: var(--primary-pink);
-            box-shadow: 0 0 15px rgba(255, 23, 68, 0.3);
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
         }
 
         .date-picker-modal {
@@ -453,8 +466,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
             z-index: 1001;
             align-items: center;
             justify-content: center;
@@ -465,16 +478,16 @@
         }
 
         .date-picker-content {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
+            background: var(--white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 15px;
             padding: 1.5rem;
-            max-width: 400px;
-            width: 85%;
+            max-width: 380px;
+            width: 90%;
             position: relative;
             max-height: 85vh;
             overflow-y: auto;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
 
         .calendar-header {
@@ -485,29 +498,29 @@
         }
 
         .calendar-nav {
-            background: var(--primary-pink);
+            background: var(--primary-blue);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
         }
 
         .calendar-nav:hover {
-            background: var(--secondary-pink);
-            transform: scale(1.1);
+            background: var(--dark-blue);
+            transform: scale(1.05);
         }
 
         .calendar-title {
-            color: white;
-            font-size: 1.3rem;
-            font-weight: bold;
+            color: var(--text-black);
+            font-size: 1.2rem;
+            font-weight: 600;
             text-align: center;
             flex: 1;
             margin: 0 0.8rem;
@@ -516,15 +529,15 @@
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 6px;
+            gap: 5px;
             margin-bottom: 1rem;
         }
 
         .calendar-day-header {
             text-align: center;
-            color: #ccc;
-            font-size: 0.8rem;
-            font-weight: bold;
+            color: #6C757D;
+            font-size: 0.75rem;
+            font-weight: 600;
             padding: 0.3rem;
         }
 
@@ -533,64 +546,68 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             font-weight: 500;
             position: relative;
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            font-size: 0.9rem;
-            min-height: 35px;
+            background: var(--light-gray);
+            color: var(--text-black);
+            font-size: 0.85rem;
+            min-height: 32px;
         }
 
         .calendar-day:hover {
-            background: rgba(255, 23, 68, 0.3);
-            transform: scale(1.1);
+            background: var(--medium-gray);
         }
 
         .calendar-day.today {
-            background: var(--accent-pink);
-            color: white;
-            font-weight: bold;
+            background: var(--accent-yellow);
+            color: var(--text-black);
+            font-weight: 700;
+        }
+        .calendar-day.today:hover {
+            background: #E0A800;
         }
 
         .calendar-day.selected {
-            background: var(--primary-pink);
+            background: var(--primary-blue);
             color: white;
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(255, 23, 68, 0.5);
+            font-weight: 700;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+        .calendar-day.selected:hover {
+            background: var(--dark-blue);
         }
 
         .calendar-day.disabled {
-            color: #666;
+            color: #ADB5BD;
             cursor: not-allowed;
-            background: rgba(255, 255, 255, 0.02);
+            background: #F1F3F5;
         }
 
         .calendar-day.disabled:hover {
             transform: none;
-            background: rgba(255, 255, 255, 0.02);
+            background: #F1F3F5;
         }
 
         .calendar-day.other-month {
-            color: #666;
-            background: rgba(255, 255, 255, 0.02);
+            color: #ADB5BD;
+            background: #F1F3F5;
         }
 
         .time-picker {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--medium-gray);
             padding-top: 1rem;
         }
 
         .time-picker-title {
-            color: white;
-            font-size: 1.1rem;
-            font-weight: bold;
+            color: var(--text-black);
+            font-size: 1rem;
+            font-weight: 600;
             margin-bottom: 0.8rem;
             text-align: center;
         }
-
         .time-inputs {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -604,26 +621,26 @@
 
         .time-input-label {
             display: block;
-            color: #ccc;
-            font-size: 0.8rem;
-            margin-bottom: 0.4rem;
+            color: #6C757D;
+            font-size: 0.75rem;
+            margin-bottom: 0.3rem;
         }
 
         .time-input {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 23, 68, 0.3);
-            color: white;
-            padding: 0.6rem;
+            background: var(--light-gray);
+            border: 1px solid var(--medium-gray);
+            color: var(--text-black);
+            padding: 0.5rem;
             border-radius: 8px;
             width: 100%;
             text-align: center;
-            font-size: 1rem;
-            font-weight: bold;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .time-input:focus {
-            border-color: var(--primary-pink);
-            box-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
             outline: none;
         }
 
@@ -638,28 +655,28 @@
             border-radius: 8px;
             border: none;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
         }
 
         .date-picker-btn.cancel {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            background: var(--medium-gray);
+            color: var(--text-black);
         }
 
         .date-picker-btn.cancel:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: #CED4DA;
         }
 
         .date-picker-btn.confirm {
-            background: var(--primary-pink);
+            background: var(--primary-blue);
             color: white;
         }
 
         .date-picker-btn.confirm:hover {
-            background: var(--secondary-pink);
-            transform: translateY(-2px);
+            background: var(--dark-blue);
+            transform: translateY(-1px);
         }
 
         .selected-date-display {
@@ -669,13 +686,13 @@
         }
 
         .selected-date {
-            font-size: 1rem;
-            font-weight: bold;
+            font-size: 0.9rem;
+            font-weight: 600;
         }
 
         .selected-time {
-            font-size: 0.85rem;
-            color: #ccc;
+            font-size: 0.75rem;
+            color: #6C757D;
             margin-top: 2px;
         }
 
@@ -688,56 +705,57 @@
         }
 
         .time-preset {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 23, 68, 0.3);
+            background: var(--light-gray);
+            color: var(--text-black);
+            border: 1px solid var(--medium-gray);
             padding: 0.4rem 0.8rem;
             border-radius: 15px;
             cursor: pointer;
             font-size: 0.8rem;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .time-preset:hover {
-            background: var(--primary-pink);
-            border-color: var(--primary-pink);
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+            color: white;
         }
 
         .calendar-day.in-range {
-            background: rgba(255, 23, 68, 0.2);
-            color: white;
+            background: rgba(0, 123, 255, 0.1);
+            color: var(--text-black);
         }
 
         .calendar-day.range-start,
         .calendar-day.range-end {
-            background: var(--primary-pink);
+            background: var(--primary-blue);
             color: white;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         /* Mobile responsiveness for smaller screens */
         @media (max-width: 480px) {
             .date-picker-content {
-                max-width: 350px;
+                max-width: 320px;
                 width: 95%;
                 padding: 1rem;
                 max-height: 90vh;
             }
             
             .calendar-title {
-                font-size: 1.1rem;
+                font-size: 1rem;
                 margin: 0 0.5rem;
             }
             
             .calendar-nav {
-                width: 30px;
-                height: 30px;
-                font-size: 0.8rem;
+                width: 28px;
+                height: 28px;
+                font-size: 0.7rem;
             }
             
             .calendar-day {
-                font-size: 0.8rem;
-                min-height: 30px;
+                font-size: 0.75rem;
+                min-height: 28px;
             }
             
             .time-inputs {
@@ -745,8 +763,8 @@
             }
             
             .time-input {
-                padding: 0.5rem;
-                font-size: 0.9rem;
+                padding: 0.4rem;
+                font-size: 0.8rem;
             }
             
             .time-presets {
@@ -755,121 +773,206 @@
             
             .time-preset {
                 padding: 0.3rem 0.6rem;
-                font-size: 0.75rem;
+                font-size: 0.7rem;
             }
         }
 
         /* Extra small screens */
         @media (max-width: 360px) {
             .date-picker-content {
-                max-width: 320px;
+                max-width: 290px;
                 padding: 0.8rem;
                 max-height: 95vh;
             }
             
             .calendar-grid {
-                gap: 4px;
+                gap: 3px;
             }
             
             .calendar-day {
-                min-height: 28px;
-                font-size: 0.75rem;
+                min-height: 25px;
+                font-size: 0.7rem;
             }
             
             .time-picker-title {
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
         }
+
+        /* Feature Under Construction Modal */
+        .under-construction-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            z-index: 1002;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .under-construction-modal.active {
+            display: flex;
+        }
+
+        .under-construction-content {
+            background: var(--white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .under-construction-content h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+
+        .under-construction-content p {
+            font-size: 1rem;
+            color: var(--text-black);
+            margin-bottom: 1.5rem;
+        }
+
+        .under-construction-content .btn-primary {
+            width: auto;
+            padding: 0.8rem 1.8rem;
+        }
+
+        /* Footer with background image */
+        footer {
+            background-image: url('assets/images/city-night-bg.jpg'); /* Adjust path as necessary */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: var(--white); /* Ensure text is visible over the image */
+            position: relative; /* Needed for overlay */
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6); /* Dark overlay for better text readability */
+            z-index: 0;
+        }
+
+        footer .container {
+            position: relative; /* Bring content above overlay */
+            z-index: 1;
+        }
+
+        /* Specific section background colors */
+        #cars {
+            background-color: var(--light-gray); /* Our Premium Fleet section */
+        }
+        #testimonials {
+            background-color: var(--testimonial-bg); /* Testimonials section */
+        }
+        #about {
+            background-color: var(--choose-us-bg); /* Why Choose Us section */
+        }
+
+        /* Ensure text and icons within these sections adapt to new backgrounds */
+        #testimonials h2, #about h2, #cars h2 {
+            color: var(--text-black);
+        }
+        #testimonials p, #about p, #cars p {
+            color: var(--gray-600);
+        }
+        #testimonials .glass, #about .glass {
+            background: rgba(255, 255, 255, 0.8); /* Adjust glass effect for new backgrounds */
+        }
+
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass" id="navbar">
-        <div class="container mx-auto px-4 py-4">
+        <div class="container mx-auto px-4 py-3">
             <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-4">
-                    <img src="assets/velocity-hunters-logo.png" alt="Velocity Hunters" class="h-12 w-auto">
-                    <span class="orbitron text-xl font-bold text-white">Velocity Hunters</span>
+                <div class="flex items-center space-x-3">
+                    <img src="assets/velocity-hunters-logo.png" alt="Velocity Hunters" class="h-10 w-auto">
+                    <span class="orbitron text-xl font-bold text-gray-800">Velocity Hunters</span>
                 </div>
                 
-                <div class="hidden md:flex space-x-8">
-                    <a href="#home" class="text-white hover:text-pink-400 transition-colors duration-300">Home</a>
-                    <a href="cars.html" class="text-white hover:text-pink-400 transition-colors duration-300">Cars</a>
-                    <a href="#about" class="text-white hover:text-pink-400 transition-colors duration-300">About</a>
-                    <a href="#contact" class="text-white hover:text-pink-400 transition-colors duration-300">Contact</a>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#home" class="text-gray-700 hover:text-primary-blue transition-colors duration-200">Home</a>
+                    <a href="cars.html" class="text-gray-700 hover:text-primary-blue transition-colors duration-200">Cars</a>
+                    <a href="#about" class="text-gray-700 hover:text-primary-blue transition-colors duration-200">About</a>
+                    <a href="#contact" class="text-gray-700 hover:text-primary-blue transition-colors duration-200">Contact</a>
                 </div>
                 
-                <button class="md:hidden text-white text-2xl" id="mobile-menu-btn">
+                <button class="md:hidden text-gray-700 text-xl" id="mobile-menu-btn">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
             
             <!-- Mobile Menu -->
-            <div class="md:hidden hidden mt-4" id="mobile-menu">
-                <div class="flex flex-col space-y-4">
-                    <a href="#home" class="text-white hover:text-pink-400 transition-colors duration-300">Home</a>
-                    <a href="#cars" class="text-white hover:text-pink-400 transition-colors duration-300">Cars</a>
-                    <a href="#about" class="text-white hover:text-pink-400 transition-colors duration-300">About</a>
-                    <a href="#contact" class="text-white hover:text-pink-400 transition-colors duration-300">Contact</a>
+            <div class="md:hidden hidden mt-3 bg-white rounded-lg shadow-md py-2" id="mobile-menu">
+                <div class="flex flex-col space-y-2 px-4">
+                    <a href="#home" class="block py-2 text-gray-700 hover:text-primary-blue transition-colors duration-200">Home</a>
+                    <a href="#cars" class="block py-2 text-gray-700 hover:text-primary-blue transition-colors duration-200">Cars</a>
+                    <a href="#about" class="block py-2 text-gray-700 hover:text-primary-blue transition-colors duration-200">About</a>
+                    <a href="#contact" class="block py-2 text-gray-700 hover:text-primary-blue transition-colors duration-200">Contact</a>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
-        <!-- Background Video -->
-        <video autoplay muted loop class="hero-video">
-            <source src="assets/videos/hero-video.mp4" type="video/mp4">
-        </video>
-        
-        <!-- Dark Overlay -->
-        <div class="hero-overlay"></div>
-        
-        <!-- Floating Particles -->
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="particle absolute w-2 h-2 bg-pink-400 rounded-full opacity-70 animate-ping" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
-            <div class="particle absolute w-3 h-3 bg-red-400 rounded-full opacity-50 animate-ping" style="top: 40%; left: 80%; animation-delay: 1s;"></div>
-            <div class="particle absolute w-1 h-1 bg-yellow-400 rounded-full opacity-60 animate-ping" style="top: 60%; left: 20%; animation-delay: 2s;"></div>
-            <div class="particle absolute w-2 h-2 bg-purple-400 rounded-full opacity-40 animate-ping" style="top: 80%; left: 70%; animation-delay: 3s;"></div>
+    <section id="home" class="hero-section pt-24 pb-16">
+        <div class="hero-video-bg absolute inset-0 w-full h-full overflow-hidden z-0">
+            <video autoplay muted loop playsinline class="w-full h-full object-cover">
+                <source src="assets/videos/hero-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
-        
+        <div class="hero-overlay"></div>
         <!-- Hero Content -->
-        <div class="relative z-10 text-center px-4 max-w-6xl mx-auto">
-            <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
-                <h1 class="orbitron hero-title font-black mb-6 text-white">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-red-400 to-pink-500">
-                        VELOCITY HUNTERS
-                    </span>
-                </h1>
-                
-                <p class="text-2xl md:text-3xl mb-8 typewriter text-pink-300 font-light">
-                    Drive Your Dreams
-                </p>
-                
-                <p class="text-lg md:text-xl mb-12 text-gray-300 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="500">
-                    Experience the thrill of premium cars with our luxury rental service. From supercars to everyday elegance.
-                </p>
-            </div>
+        <div class="relative z-10 text-center px-4 max-w-6xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
+            <h1 class="orbitron hero-title font-extrabold mb-4 text-white">
+                <span class="text-white">VELOCITY HUNTERS</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl mb-6 typewriter text-yellow-200 font-light max-w-2xl mx-auto">
+                Drive Your Dreams
+            </p>
+            
+            <p class="text-md md:text-lg mb-10 text-white/90 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="300">
+                Experience the thrill of premium cars with our luxury rental service. From sports cars to elegant sedans.
+            </p>
             
             <!-- Search Container -->
-            <div class="glass p-8 rounded-3xl max-w-4xl mx-auto float" data-aos="fade-up" data-aos-delay="800">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <div class="glass p-6 rounded-xl max-w-4xl mx-auto float" data-aos="fade-up" data-aos-delay="600">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                     <!-- Location -->
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium text-pink-300">
-                            <i class="fas fa-map-marker-alt mr-2"></i>Pickup Location
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-blue-800">
+                            <i class="fas fa-map-marker-alt mr-1"></i>Pickup Location
                         </label>
                         <button class="city-selector-btn" id="city-selector">
                             <span id="selected-city">Select City</span>
-                            <i class="fas fa-chevron-down"></i>
+                            <i class="fas fa-chevron-down text-gray-500"></i>
                         </button>
                     </div>
                     
                     <!-- Pickup Date & Time -->
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium text-red-300">
-                            <i class="fas fa-calendar-alt mr-2"></i>Pickup Date & Time
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-blue-800">
+                            <i class="fas fa-calendar-alt mr-1"></i>Pickup Date & Time
                         </label>
                         <div class="date-picker-container">
                             <button class="date-picker-input" id="pickup-date-btn">
@@ -877,15 +980,15 @@
                                     <span class="selected-date" id="pickup-date-display">Select Date</span>
                                     <span class="selected-time" id="pickup-time-display">Select Time</span>
                                 </div>
-                                <i class="fas fa-calendar-alt text-pink-400"></i>
+                                <i class="fas fa-calendar-alt text-gray-500"></i>
                             </button>
                         </div>
                     </div>
                     
                     <!-- Return Date & Time -->
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium text-yellow-300">
-                            <i class="fas fa-calendar-check mr-2"></i>Return Date & Time
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-blue-800">
+                            <i class="fas fa-calendar-check mr-1"></i>Return Date & Time
                         </label>
                         <div class="date-picker-container">
                             <button class="date-picker-input" id="return-date-btn">
@@ -893,36 +996,36 @@
                                     <span class="selected-date" id="return-date-display">Select Date</span>
                                     <span class="selected-time" id="return-time-display">Select Time</span>
                                 </div>
-                                <i class="fas fa-calendar-check text-yellow-400"></i>
+                                <i class="fas fa-calendar-check text-gray-500"></i>
                             </button>
                         </div>
                     </div>
                     
                     <!-- Search Button -->
                     <div class="flex items-end">
-                        <button class="w-full btn-primary p-4 rounded-xl text-white font-bold text-lg pulse-glow" id="search-btn">
+                        <button class="w-full btn-primary py-3 px-4 text-white font-bold text-lg pulse-glow" id="search-btn">
                             <i class="fas fa-search mr-2"></i>Find Cars
                         </button>
                     </div>
                 </div>
                 
                 <!-- Quick Filters -->
-                <div class="flex flex-wrap gap-4 justify-center">
-                    <span class="px-4 py-2 glass rounded-full text-sm cursor-pointer hover:bg-pink-500/20 transition-all">
-                        <i class="fas fa-bolt mr-2"></i>Sports Cars
+                <div class="flex flex-wrap gap-3 justify-center text-gray-800">
+                    <span class="px-3 py-1 bg-white rounded-full text-sm cursor-pointer hover:bg-light-gray transition-colors border border-medium-gray">
+                        <i class="fas fa-bolt mr-1 text-primary-blue"></i>Sports Cars
                     </span>
-                    <span class="px-4 py-2 glass rounded-full text-sm cursor-pointer hover:bg-red-500/20 transition-all">
-                        <i class="fas fa-crown mr-2"></i>Luxury
+                    <span class="px-3 py-1 bg-white rounded-full text-sm cursor-pointer hover:bg-light-gray transition-colors border border-medium-gray">
+                        <i class="fas fa-crown mr-1 text-accent-yellow"></i>Luxury
                     </span>
-                    <span class="px-4 py-2 glass rounded-full text-sm cursor-pointer hover:bg-yellow-500/20 transition-all">
-                        <i class="fas fa-leaf mr-2"></i>Electric
+                    <span class="px-3 py-1 bg-white rounded-full text-sm cursor-pointer hover:bg-light-gray transition-colors border border-medium-gray">
+                        <i class="fas fa-leaf mr-1 text-success-green"></i>Electric
                     </span>
                 </div>
             </div>
         </div>
         
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+        <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
             <i class="fas fa-chevron-down text-2xl"></i>
         </div>
     </section>
@@ -934,13 +1037,11 @@
                 <i class="fas fa-times"></i>
             </button>
             
-            <h2 class="orbitron text-3xl font-bold mb-6 text-center text-white">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-red-400">
-                    Choose Your City
-                </span>
+            <h2 class="orbitron text-2xl font-bold mb-5 text-center text-primary-blue">
+                Choose Your City
             </h2>
             
-            <div class="cities-grid">
+            <div class="cities-grid grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- Delhi -->
                 <div class="city-option" data-city="delhi" data-name="Delhi/Delhi NCT">
                     <img src="assets/images/delhi-red-fort.jpg" alt="Red Fort" class="city-image">
@@ -1061,169 +1162,157 @@
         </div>
     </div>
 
+    <!-- Feature Under Construction Modal -->
+    <div class="under-construction-modal" id="under-construction-modal">
+        <div class="under-construction-content">
+            <button class="close-modal" id="close-construction-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Feature Under Construction</h2>
+            <p>This feature is currently under development. However, you can book cars by visiting our dedicated cars page.</p>
+            <button class="btn-primary" onclick="window.location.href='cars.html'">
+                Go to Cars Page
+            </button>
+        </div>
+    </div>
+
     <!-- Featured Cars Section -->
-    <section class="py-20 animated-bg" id="cars">
+    <section class="py-16 bg-light-gray" id="cars">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="orbitron text-5xl font-bold mb-6">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-red-400">
-                        Premium Fleet
-                    </span>
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="orbitron text-3xl md:text-4xl font-bold mb-4 text-text-black">
+                    Our <span class="text-primary-blue">Premium Fleet</span>
                 </h2>
-                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                <p class="text-md md:text-lg text-gray-600 max-w-2xl mx-auto">
                     Discover our collection of high-performance vehicles, each meticulously maintained for your ultimate driving experience.
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Car Card 1 - Ferrari -->
-                <div class="car-card glass p-6 rounded-2xl glow-pink" data-aos="fade-up" data-aos-delay="100">
-                    <div class="relative overflow-hidden rounded-xl mb-4">
-                        <img src="assets/images/ferrari-showcase.jpg" alt="Ferrari" class="w-full h-48 object-cover transform hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                            Premium
+                <div class="car-card p-5 rounded-lg glow-blue" data-aos="fade-up" data-aos-delay="100">
+                    <div class="relative overflow-hidden rounded-md mb-3">
+                        <img src="assets/images/ferrari-showcase.jpg" alt="Ferrari" class="w-full h-40 object-cover transform hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 right-3 bg-primary-blue text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            Sports
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Ferrari 488 GTB</h3>
-                    <p class="text-gray-400 text-sm mb-4">Unleash your inner speed demon</p>
+                    <h3 class="text-lg font-bold mb-1 text-text-black">Ferrari 488 GTB</h3>
+                    <p class="text-gray-500 text-sm mb-3">Unleash your inner speed demon</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-pink-400">₹15,000/day</span>
-                        <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded-lg text-white transition-colors">
-                            Book Now
-                        </button>
+                        <span class="text-xl font-bold text-primary-blue">₹15,000<span class="text-sm text-gray-500 font-normal">/day</span></span>
                     </div>
                 </div>
                 
                 <!-- Car Card 2 - Lamborghini -->
-                <div class="car-card glass p-6 rounded-2xl glow-accent" data-aos="fade-up" data-aos-delay="200">
-                    <div class="relative overflow-hidden rounded-xl mb-4">
-                        <img src="assets/images/lambo-hero.jpg" alt="Lamborghini" class="w-full h-48 object-cover transform hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 right-4 bg-yellow-500 text-black px-2 py-1 rounded-full text-xs font-bold">
+                <div class="car-card p-5 rounded-lg glow-yellow" data-aos="fade-up" data-aos-delay="200">
+                    <div class="relative overflow-hidden rounded-md mb-3">
+                        <img src="assets/images/lambo-hero.jpg" alt="Lamborghini" class="w-full h-40 object-cover transform hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 right-3 bg-accent-yellow text-text-black px-2 py-1 rounded-full text-xs font-semibold">
                             Exotic
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Lamborghini Huracán</h3>
-                    <p class="text-gray-400 text-sm mb-4">Pure Italian excellence</p>
+                    <h3 class="text-lg font-bold mb-1 text-text-black">Lamborghini Huracán</h3>
+                    <p class="text-gray-500 text-sm mb-3">Pure Italian excellence</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-red-400">₹18,000/day</span>
-                        <button class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-white transition-colors">
-                            Book Now
-                        </button>
+                        <span class="text-xl font-bold text-primary-blue">₹18,000<span class="text-sm text-gray-500 font-normal">/day</span></span>
                     </div>
                 </div>
                 
                 <!-- Car Card 3 - Porsche -->
-                <div class="car-card glass p-6 rounded-2xl glow-gold" data-aos="fade-up" data-aos-delay="300">
-                    <div class="relative overflow-hidden rounded-xl mb-4">
-                        <img src="assets/images/porsche-911.jpg" alt="Porsche 911" class="w-full h-48 object-cover transform hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 right-4 bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                            Classic
+                <div class="car-card p-5 rounded-lg glow-blue" data-aos="fade-up" data-aos-delay="300">
+                    <div class="relative overflow-hidden rounded-md mb-3">
+                        <img src="assets/images/porsche-911.jpg" alt="Porsche 911" class="w-full h-40 object-cover transform hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 right-3 bg-primary-blue text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            Sports
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Porsche 911 Turbo</h3>
-                    <p class="text-gray-400 text-sm mb-4">Timeless performance icon</p>
+                    <h3 class="text-lg font-bold mb-1 text-text-black">Porsche 911 Turbo</h3>
+                    <p class="text-gray-500 text-sm mb-3">Timeless performance icon</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-yellow-400">₹12,000/day</span>
-                        <button class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-lg text-black transition-colors">
-                            Book Now
-                        </button>
+                        <span class="text-xl font-bold text-primary-blue">₹12,000<span class="text-sm text-gray-500 font-normal">/day</span></span>
                     </div>
                 </div>
                 
                 <!-- Car Card 4 - BMW -->
-                <div class="car-card glass p-6 rounded-2xl glow-pink" data-aos="fade-up" data-aos-delay="400">
-                    <div class="relative overflow-hidden rounded-xl mb-4">
-                        <img src="assets/images/bmw-m4.jpg" alt="BMW M4" class="w-full h-48 object-cover transform hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 right-4 bg-blue-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-                            Sport
+                <div class="car-card p-5 rounded-lg glow-yellow" data-aos="fade-up" data-aos-delay="400">
+                    <div class="relative overflow-hidden rounded-md mb-3">
+                        <img src="assets/images/bmw-m4.jpg" alt="BMW M4" class="w-full h-40 object-cover transform hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 right-3 bg-accent-yellow text-text-black px-2 py-1 rounded-full text-xs font-semibold">
+                            Luxury
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">BMW M4 Competition</h3>
-                    <p class="text-gray-400 text-sm mb-4">German precision meets power</p>
+                    <h3 class="text-lg font-bold mb-1 text-text-black">BMW M4 Competition</h3>
+                    <p class="text-gray-500 text-sm mb-3">German precision meets power</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-pink-400">₹10,000/day</span>
-                        <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded-lg text-white transition-colors">
-                            Book Now
-                        </button>
+                        <span class="text-xl font-bold text-primary-blue">₹10,000<span class="text-sm text-gray-500 font-normal">/day</span></span>
                     </div>
                 </div>
                 
                 <!-- Car Card 5 - Audi -->
-                <div class="car-card glass p-6 rounded-2xl glow-accent" data-aos="fade-up" data-aos-delay="500">
-                    <div class="relative overflow-hidden rounded-xl mb-4">
-                        <img src="assets/images/audi-r8.jpg" alt="Audi R8" class="w-full h-48 object-cover transform hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 right-4 bg-purple-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                <div class="car-card p-5 rounded-lg glow-blue" data-aos="fade-up" data-aos-delay="500">
+                    <div class="relative overflow-hidden rounded-md mb-3">
+                        <img src="assets/images/audi-r8.jpg" alt="Audi R8" class="w-full h-40 object-cover transform hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 right-3 bg-primary-blue text-white px-2 py-1 rounded-full text-xs font-semibold">
                             Supercar
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Audi R8 V10</h3>
-                    <p class="text-gray-400 text-sm mb-4">Engineering masterpiece</p>
+                    <h3 class="text-lg font-bold mb-1 text-text-black">Audi R8 V10</h3>
+                    <p class="text-gray-500 text-sm mb-3">Engineering masterpiece</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-red-400">₹14,000/day</span>
-                        <button class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-white transition-colors">
-                            Book Now
-                        </button>
+                        <span class="text-xl font-bold text-primary-blue">₹14,000<span class="text-sm text-gray-500 font-normal">/day</span></span>
                     </div>
                 </div>
                 
                 <!-- Car Card 6 - Mercedes -->
-                <div class="car-card glass p-6 rounded-2xl glow-gold" data-aos="fade-up" data-aos-delay="600">
-                    <div class="relative overflow-hidden rounded-xl mb-4">
-                        <img src="assets/images/mercedes-amg.jpg" alt="Mercedes AMG" class="w-full h-48 object-cover transform hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 right-4 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                <div class="car-card p-5 rounded-lg glow-yellow" data-aos="fade-up" data-aos-delay="600">
+                    <div class="relative overflow-hidden rounded-md mb-3">
+                        <img src="assets/images/mercedes-amg.jpg" alt="Mercedes AMG" class="w-full h-40 object-cover transform hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 right-3 bg-accent-yellow text-text-black px-2 py-1 rounded-full text-xs font-semibold">
                             Luxury
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Mercedes AMG GT</h3>
-                    <p class="text-gray-400 text-sm mb-4">Luxury meets performance</p>
+                    <h3 class="text-lg font-bold mb-1 text-text-black">Mercedes AMG GT</h3>
+                    <p class="text-gray-500 text-sm mb-3">Luxury meets performance</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-yellow-400">₹13,000/day</span>
-                        <button class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-lg text-black transition-colors">
-                            Book Now
-                        </button>
+                        <span class="text-xl font-bold text-primary-blue">₹13,000<span class="text-sm text-gray-500 font-normal">/day</span></span>
                     </div>
                 </div>
                 
                 <!-- Car Card 7 - Tesla -->
-                <div class="car-card glass p-6 rounded-2xl glow-pink" data-aos="fade-up" data-aos-delay="700">
-                    <div class="relative overflow-hidden rounded-xl mb-4">
-                        <img src="assets/images/tesla-model-s.jpg" alt="Tesla Model S" class="w-full h-48 object-cover transform hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 right-4 bg-green-600 text-white px-2 py-1 rounded-full text-xs font-bold">
+                <div class="car-card p-5 rounded-lg glow-blue" data-aos="fade-up" data-aos-delay="700">
+                    <div class="relative overflow-hidden rounded-md mb-3">
+                        <img src="assets/images/tesla-model-s.jpg" alt="Tesla Model S" class="w-full h-40 object-cover transform hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 right-3 bg-primary-blue text-white px-2 py-1 rounded-full text-xs font-semibold">
                             Electric
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">Tesla Model S Plaid</h3>
-                    <p class="text-gray-400 text-sm mb-4">Future of performance</p>
+                    <h3 class="text-lg font-bold mb-1 text-text-black">Tesla Model S Plaid</h3>
+                    <p class="text-gray-500 text-sm mb-3">Future of performance</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-pink-400">₹8,000/day</span>
-                        <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded-lg text-white transition-colors">
-                            Book Now
-                        </button>
+                        <span class="text-xl font-bold text-primary-blue">₹8,000<span class="text-sm text-gray-500 font-normal">/day</span></span>
                     </div>
                 </div>
                 
                 <!-- Car Card 8 - McLaren -->
-                <div class="car-card glass p-6 rounded-2xl glow-accent" data-aos="fade-up" data-aos-delay="800">
-                    <div class="relative overflow-hidden rounded-xl mb-4">
-                        <img src="assets/images/mclaren-720s.jpg" alt="McLaren 720S" class="w-full h-48 object-cover transform hover:scale-110 transition-transform duration-500">
-                        <div class="absolute top-4 right-4 bg-orange-600 text-white px-2 py-1 rounded-full text-xs font-bold">
+                <div class="car-card p-5 rounded-lg glow-yellow" data-aos="fade-up" data-aos-delay="800">
+                    <div class="relative overflow-hidden rounded-md mb-3">
+                        <img src="assets/images/mclaren-720s.jpg" alt="McLaren 720S" class="w-full h-40 object-cover transform hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-3 right-3 bg-accent-yellow text-text-black px-2 py-1 rounded-full text-xs font-semibold">
                             Hypercar
                         </div>
                     </div>
-                    <h3 class="text-xl font-bold mb-2 text-white">McLaren 720S</h3>
-                    <p class="text-gray-400 text-sm mb-4">British engineering excellence</p>
+                    <h3 class="text-lg font-bold mb-1 text-text-black">McLaren 720S</h3>
+                    <p class="text-gray-500 text-sm mb-3">British engineering excellence</p>
                     <div class="flex justify-between items-center">
-                        <span class="text-2xl font-bold text-red-400">₹20,000/day</span>
-                        <button class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-white transition-colors">
-                            Book Now
-                        </button>
+                        <span class="text-xl font-bold text-primary-blue">₹20,000<span class="text-sm text-gray-500 font-normal">/day</span></span>
                     </div>
                 </div>
             </div>
             
             <!-- View All Button -->
-            <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="900">
-                <button class="btn-primary px-8 py-4 rounded-xl text-white font-bold text-lg" onclick="window.location.href='cars.html'">
+            <div class="text-center mt-10" data-aos="fade-up" data-aos-delay="900">
+                <button class="btn-primary px-6 py-3 text-white font-bold text-md" onclick="window.location.href='cars.html'">
                     <i class="fas fa-car mr-2"></i>View All Cars
                 </button>
             </div>
@@ -1231,76 +1320,74 @@
     </section>
 
     <!-- Brand Partners Section -->
-    <section class="py-16 bg-black/50">
+    <section class="py-12 bg-white" id="brands">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-12" data-aos="fade-up">
-                <h2 class="orbitron text-4xl font-bold mb-4 text-white">
-                    Trusted <span class="text-pink-400">Partners</span>
+            <div class="text-center mb-10" data-aos="fade-up">
+                <h2 class="orbitron text-2xl md:text-3xl font-bold mb-3 text-text-black">
+                    Trusted <span class="text-primary-blue">Partners</span>
                 </h2>
-                <p class="text-gray-400 text-lg">Premium brands, exceptional experiences</p>
+                <p class="text-md text-gray-600">Premium brands, exceptional experiences</p>
             </div>
             
-            <div class="flex flex-wrap justify-center items-center gap-12" data-aos="fade-up" data-aos-delay="200">
-                <img src="assets/images/lamborghini-logo.png" alt="Lamborghini" class="brand-logo h-16 opacity-60 hover:opacity-100">
-                <img src="assets/images/ferrari-logo.png" alt="Ferrari" class="brand-logo h-16 opacity-60 hover:opacity-100">
-                <img src="assets/images/porsche-logo.png" alt="Porsche" class="brand-logo h-16 opacity-60 hover:opacity-100">
-                <img src="assets/images/bmw-logo.png" alt="BMW" class="brand-logo h-16 opacity-60 hover:opacity-100">
-                <img src="assets/images/audi-logo.png" alt="Audi" class="brand-logo h-16 opacity-60 hover:opacity-100">
-                <img src="assets/images/mercedes-logo.png" alt="Mercedes" class="brand-logo h-16 opacity-60 hover:opacity-100">
-                <img src="assets/images/tesla-logo.png" alt="Tesla" class="brand-logo h-16 opacity-60 hover:opacity-100">
-                <img src="assets/images/mclaren-logo.png" alt="McLaren" class="brand-logo h-16 opacity-60 hover:opacity-100">
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12" data-aos="fade-up" data-aos-delay="100">
+                <img src="assets/images/lamborghini-logo.png" alt="Lamborghini" class="brand-logo h-12 md:h-14">
+                <img src="assets/images/ferrari-logo.png" alt="Ferrari" class="brand-logo h-12 md:h-14">
+                <img src="assets/images/porsche-logo.png" alt="Porsche" class="brand-logo h-12 md:h-14">
+                <img src="assets/images/bmw-logo.png" alt="BMW" class="brand-logo h-12 md:h-14">
+                <img src="assets/images/audi-logo.png" alt="Audi" class="brand-logo h-12 md:h-14">
+                <img src="assets/images/mercedes-logo.png" alt="Mercedes" class="brand-logo h-12 md:h-14">
+                <img src="assets/images/tesla-logo.png" alt="Tesla" class="brand-logo h-12 md:h-14">
+                <img src="assets/images/mclaren-logo.png" alt="McLaren" class="brand-logo h-12 md:h-14">
             </div>
         </div>
     </section>
 
     <!-- Statistics Section -->
-    <section class="py-20 animated-bg">
+    <section class="py-16 bg-light-gray" id="stats">
         <div class="container mx-auto px-4">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                 <div data-aos="fade-up" data-aos-delay="100">
-                    <div class="counter" data-target="500">0</div>
-                    <p class="text-gray-400 text-lg">Premium Cars</p>
+                    <div class="counter text-primary-blue" data-target="500">0</div>
+                    <p class="text-gray-600 text-md">Premium Cars</p>
                 </div>
                 <div data-aos="fade-up" data-aos-delay="200">
-                    <div class="counter" data-target="10000">0</div>
-                    <p class="text-gray-400 text-lg">Happy Customers</p>
+                    <div class="counter text-primary-blue" data-target="10000">0</div>
+                    <p class="text-gray-600 text-md">Happy Customers</p>
                 </div>
                 <div data-aos="fade-up" data-aos-delay="300">
-                    <div class="counter" data-target="6">0</div>
-                    <p class="text-gray-400 text-lg">Cities</p>
+                    <div class="counter text-primary-blue" data-target="6">0</div>
+                    <p class="text-gray-600 text-md">Cities</p>
                 </div>
                 <div data-aos="fade-up" data-aos-delay="400">
-                    <div class="counter" data-target="24">0</div>
-                    <p class="text-gray-400 text-lg">Hours Support</p>
+                    <div class="counter text-primary-blue" data-target="24">0</div>
+                    <p class="text-gray-600 text-md">Hours Support</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Testimonials Section -->
-    <section class="py-20 bg-black/50">
+    <section class="py-16" id="testimonials">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="orbitron text-5xl font-bold mb-6">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-red-400">
-                        What Our Clients Say
-                    </span>
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="orbitron text-3xl md:text-4xl font-bold mb-4 text-text-black">
+                    What Our <span class="text-primary-blue">Clients Say</span>
                 </h2>
-                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                <p class="text-md md:text-lg text-gray-600 max-w-2xl mx-auto">
                     Real experiences from our satisfied customers
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="testimonials">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="testimonials-grid">
                 <!-- Testimonial 1 -->
-                <div class="glass p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="100">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center mr-4">
-                            <i class="fas fa-user text-white"></i>
+                <div class="glass p-6 rounded-lg" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-primary-blue rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-white text-sm"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-white">Raj Sharma</h4>
-                            <div class="flex text-yellow-400">
+                            <h4 class="font-semibold text-text-black">Raj Sharma</h4>
+                            <div class="flex text-accent-yellow text-sm">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -1309,18 +1396,18 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text-gray-300 italic">"Incredible experience with the Lamborghini! The service was flawless and the car was in perfect condition. Will definitely book again."</p>
+                    <p class="text-gray-700 text-sm italic">"Incredible experience with the Lamborghini! The service was flawless and the car was in perfect condition. Will definitely book again."</p>
                 </div>
                 
                 <!-- Testimonial 2 -->
-                <div class="glass p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="200">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mr-4">
-                            <i class="fas fa-user text-white"></i>
+                <div class="glass p-6 rounded-lg" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-primary-blue rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-white text-sm"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-white">Priya Patel</h4>
-                            <div class="flex text-yellow-400">
+                            <h4 class="font-semibold text-text-black">Priya Patel</h4>
+                            <div class="flex text-accent-yellow text-sm">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -1329,18 +1416,18 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text-gray-300 italic">"Professional service and amazing cars! The Tesla Model S was a dream to drive. Highly recommend Velocity Hunters!"</p>
+                    <p class="text-gray-700 text-sm italic">"Professional service and amazing cars! The Tesla Model S was a dream to drive. Highly recommend Velocity Hunters!"</p>
                 </div>
                 
                 <!-- Testimonial 3 -->
-                <div class="glass p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="300">
-                    <div class="flex items-center mb-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mr-4">
-                            <i class="fas fa-user text-white"></i>
+                <div class="glass p-6 rounded-lg" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 bg-primary-blue rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-user text-white text-sm"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-white">Arjun Singh</h4>
-                            <div class="flex text-yellow-400">
+                            <h4 class="font-semibold text-text-black">Arjun Singh</h4>
+                            <div class="flex text-accent-yellow text-sm">
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
@@ -1349,118 +1436,116 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text-gray-300 italic">"Best car rental experience ever! The Ferrari was immaculate and the booking process was seamless. Five stars!"</p>
+                    <p class="text-gray-700 text-sm italic">"Best car rental experience ever! The Ferrari was immaculate and the booking process was seamless. Five stars!"</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Why Choose Us Section -->
-    <section class="py-20 bg-gradient-to-br from-gray-900 via-black to-gray-800">
+    <section class="py-16" id="about">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-16" data-aos="fade-up">
-                <h2 class="orbitron text-5xl font-bold mb-6">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-red-400">
-                        Why Choose Us
-                    </span>
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="orbitron text-3xl md:text-4xl font-bold mb-4 text-text-black">
+                    Why <span class="text-primary-blue">Choose Us</span>
                 </h2>
-                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                <p class="text-md md:text-lg text-gray-600 max-w-2xl mx-auto">
                     Experience unmatched service and premium vehicles with Velocity Hunters
                 </p>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Feature 1 -->
-                <div class="text-center glass p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="100">
-                    <div class="w-20 h-20 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-pink">
-                        <i class="fas fa-shield-alt text-3xl text-white"></i>
+                <div class="text-center glass p-6 rounded-lg" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 glow-blue">
+                        <i class="fas fa-shield-alt text-2xl text-success-green"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">Fully Insured</h3>
-                    <p class="text-gray-400">Comprehensive coverage for complete peace of mind during your journey</p>
+                    <h3 class="text-lg font-bold mb-2 text-text-black">Fully Insured</h3>
+                    <p class="text-gray-700 text-sm">Comprehensive coverage for complete peace of mind during your journey</p>
                 </div>
                 
                 <!-- Feature 2 -->
-                <div class="text-center glass p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="200">
-                    <div class="w-20 h-20 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-accent">
-                        <i class="fas fa-clock text-3xl text-white"></i>
+                <div class="text-center glass p-6 rounded-lg" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 glow-blue">
+                        <i class="fas fa-clock text-2xl text-success-green"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">24/7 Support</h3>
-                    <p class="text-gray-400">Round-the-clock assistance whenever you need us, wherever you are</p>
+                    <h3 class="text-lg font-bold mb-2 text-text-black">24/7 Support</h3>
+                    <p class="text-gray-700 text-sm">Round-the-clock assistance whenever you need us, wherever you are</p>
                 </div>
                 
                 <!-- Feature 3 -->
-                <div class="text-center glass p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="300">
-                    <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6 glow-gold">
-                        <i class="fas fa-star text-3xl text-white"></i>
+                <div class="text-center glass p-6 rounded-lg" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 glow-blue">
+                        <i class="fas fa-star text-2xl text-success-green"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4 text-white">Premium Quality</h3>
-                    <p class="text-gray-400">Meticulously maintained vehicles ensuring the highest standards of excellence</p>
+                    <h3 class="text-lg font-bold mb-2 text-text-black">Premium Quality</h3>
+                    <p class="text-gray-700 text-sm">Meticulously maintained vehicles ensuring the highest standards of excellence</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-16 bg-black">
+    <footer class="py-10 border-t border-medium-gray" id="contact">
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <!-- Company Info -->
                 <div class="col-span-1 md:col-span-2">
-                    <div class="flex items-center space-x-4 mb-6">
-                        <img src="assets/velocity-hunters-logo.png" alt="Velocity Hunters" class="h-12 w-auto">
-                        <span class="orbitron text-2xl font-bold text-white">Velocity Hunters</span>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <img src="assets/velocity-hunters-logo.png" alt="Velocity Hunters" class="h-10 w-auto">
+                        <span class="orbitron text-xl font-bold text-white">Velocity Hunters</span>
                     </div>
-                    <p class="text-gray-400 mb-6 max-w-md">
+                    <p class="text-white/90 mb-4 max-w-md text-sm">
                         Drive your dreams with our premium car rental service. Experience luxury, performance, and unmatched service across multiple cities.
                     </p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors">
-                            <i class="fab fa-facebook-f text-white"></i>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-8 h-8 bg-primary-blue rounded-full flex items-center justify-center hover:bg-dark-blue transition-colors">
+                            <i class="fab fa-facebook-f text-white text-sm"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-red-400 rounded-full flex items-center justify-center hover:bg-red-500 transition-colors">
-                            <i class="fab fa-twitter text-white"></i>
+                        <a href="#" class="w-8 h-8 bg-primary-blue rounded-full flex items-center justify-center hover:bg-dark-blue transition-colors">
+                            <i class="fab fa-twitter text-white text-sm"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center hover:bg-pink-600 transition-colors">
-                            <i class="fab fa-instagram text-white"></i>
+                        <a href="#" class="w-8 h-8 bg-primary-blue rounded-full flex items-center justify-center hover:bg-dark-blue transition-colors">
+                            <i class="fab fa-instagram text-white text-sm"></i>
                         </a>
-                        <a href="#" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors">
-                            <i class="fab fa-linkedin-in text-white"></i>
+                        <a href="#" class="w-8 h-8 bg-primary-blue rounded-full flex items-center justify-center hover:bg-dark-blue transition-colors">
+                            <i class="fab fa-linkedin-in text-white text-sm"></i>
                         </a>
                     </div>
                 </div>
                 
                 <!-- Service Locations -->
                 <div>
-                    <h3 class="text-xl font-bold text-white mb-6">Service Locations</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><i class="fas fa-map-marker-alt mr-2 text-pink-400"></i>Delhi/Delhi NCT</li>
-                        <li><i class="fas fa-map-marker-alt mr-2 text-pink-400"></i>Mumbai</li>
-                        <li><i class="fas fa-map-marker-alt mr-2 text-pink-400"></i>Guwahati</li>
-                        <li><i class="fas fa-map-marker-alt mr-2 text-pink-400"></i>Dehradun</li>
-                        <li><i class="fas fa-map-marker-alt mr-2 text-pink-400"></i>Dhramshala</li>
-                        <li><i class="fas fa-map-marker-alt mr-2 text-pink-400"></i>Panaji</li>
+                    <h3 class="text-lg font-bold text-white mb-4">Service Locations</h3>
+                    <ul class="space-y-2 text-white/90 text-sm">
+                        <li><i class="fas fa-map-marker-alt mr-2 text-primary-blue"></i>Delhi/Delhi NCT</li>
+                        <li><i class="fas fa-map-marker-alt mr-2 text-primary-blue"></i>Mumbai</li>
+                        <li><i class="fas fa-map-marker-alt mr-2 text-primary-blue"></i>Guwahati</li>
+                        <li><i class="fas fa-map-marker-alt mr-2 text-primary-blue"></i>Dehradun</li>
+                        <li><i class="fas fa-map-marker-alt mr-2 text-primary-blue"></i>Dhramshala</li>
+                        <li><i class="fas fa-map-marker-alt mr-2 text-primary-blue"></i>Panaji</li>
                     </ul>
                 </div>
                 
                 <!-- Contact Info -->
                 <div>
-                    <h3 class="text-xl font-bold text-white mb-6">Contact Us</h3>
-                    <ul class="space-y-4 text-gray-400">
+                    <h3 class="text-lg font-bold text-white mb-4">Contact Us</h3>
+                    <ul class="space-y-3 text-white/90 text-sm">
                         <li>
-                            <i class="fas fa-envelope mr-2 text-red-400"></i>
-                            <a href="mailto:himanshutanwar.official21@gmail.com" class="hover:text-white transition-colors">
+                            <i class="fas fa-envelope mr-2 text-primary-blue"></i>
+                            <a href="mailto:himanshutanwar.official21@gmail.com" class="hover:text-primary-blue transition-colors">
                                 himanshutanwar.official21@gmail.com
                             </a>
                         </li>
-                        <li><i class="fas fa-clock mr-2 text-yellow-400"></i>24/7 Support Available</li>
+                        <li><i class="fas fa-clock mr-2 text-primary-blue"></i>24/7 Support Available</li>
                     </ul>
                 </div>
             </div>
             
-            <hr class="border-gray-700 my-8">
+            <hr class="border-medium-gray my-8">
             
             <!-- Copyright -->
-            <div class="text-center text-gray-400">
+            <div class="text-center text-white/80 text-sm">
                 <p>&copy; 2025 Velocity Hunters. All rights reserved. | Drive Your Dreams</p>
             </div>
         </div>
@@ -1470,9 +1555,9 @@
     <script>
         // Initialize AOS
         AOS.init({
-            duration: 1000,
+            duration: 800,
             once: true,
-            offset: 100
+            offset: 50
         });
 
         // Global Variables
@@ -1520,12 +1605,6 @@
                 const cityName = option.getAttribute('data-name');
                 selectedCitySpan.textContent = cityName;
                 cityModal.classList.remove('active');
-                
-                // Add visual feedback
-                option.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    option.style.transform = 'translateX(10px)';
-                }, 100);
             });
         });
 
@@ -1559,6 +1638,7 @@
         pickupDateBtn.addEventListener('click', () => {
             currentDatePicker = 'pickup';
             minDate = new Date();
+            minDate.setHours(0,0,0,0); // Reset time for comparison
             openDatePicker();
         });
 
@@ -1566,18 +1646,49 @@
             currentDatePicker = 'return';
             // Set minimum date to pickup date + 1 day if pickup is selected
             const pickupDateDisplay = document.getElementById('pickup-date-display').textContent;
+            const pickupTimeDisplay = document.getElementById('pickup-time-display').textContent;
+
             if (pickupDateDisplay !== 'Select Date') {
-                minDate = new Date(pickupDateDisplay);
-                minDate.setDate(minDate.getDate() + 1);
+                const [dayOfWeek, month, day, year] = pickupDateDisplay.split(' ');
+                const datePart = `${month} ${day}, ${year}`;
+                const timePart = convertTo24Hour(pickupTimeDisplay); // Convert to 24-hour format for Date object
+
+                minDate = new Date(`${datePart} ${timePart}`);
+                minDate.setDate(minDate.getDate()); // Keep same day for return minimum
             } else {
                 minDate = new Date();
-                minDate.setDate(minDate.getDate() + 1);
+                minDate.setHours(0,0,0,0);
             }
+            // Always ensure return date is at least current date if pickup not selected or in past
+            if (minDate < new Date()) {
+                minDate = new Date();
+                minDate.setHours(0,0,0,0);
+            }
+
             openDatePicker();
         });
 
+        function convertTo24Hour(time12h) {
+            const [time, period] = time12h.split(' ');
+            let [hours, minutes] = time.split(':');
+            if (period === 'PM' && hours !== '12') {
+                hours = parseInt(hours, 10) + 12;
+            } else if (period === 'AM' && hours === '12') {
+                hours = '00';
+            }
+            return `${hours}:${minutes}`;
+        }
+
         function openDatePicker() {
             datePickerModal.classList.add('active');
+            // Ensure calendar shows current month/year for minDate if minDate is in future
+            if (minDate > new Date()) {
+                currentMonth = minDate.getMonth();
+                currentYear = minDate.getFullYear();
+            } else {
+                currentMonth = new Date().getMonth();
+                currentYear = new Date().getFullYear();
+            }
             generateCalendar();
         }
 
@@ -1632,10 +1743,12 @@
 
             // Clear existing days (keep headers)
             const existingDays = calendarGrid.querySelectorAll('.calendar-day');
-            existingDays.forEach(day => day.remove());
+            for (let i = 7; i < existingDays.length; i++) { // Keep first 7 for headers
+                existingDays[i].remove();
+            }
 
-            // Generate 42 days (6 weeks)
-            for (let i = 0; i < 42; i++) {
+            // Generate days
+            for (let i = 0; i < 42; i++) { // Generate enough days for 6 weeks
                 const date = new Date(startDate);
                 date.setDate(startDate.getDate() + i);
                 
@@ -1643,8 +1756,9 @@
                 dayElement.className = 'calendar-day';
                 dayElement.textContent = date.getDate();
 
-                // Add classes based on date properties
                 const today = new Date();
+                today.setHours(0,0,0,0); // Normalize today for comparison
+
                 if (date.toDateString() === today.toDateString()) {
                     dayElement.classList.add('today');
                 }
@@ -1655,8 +1769,9 @@
 
                 if (date < minDate) {
                     dayElement.classList.add('disabled');
+                    dayElement.style.pointerEvents = 'none'; // Disable clicks for past dates
                 } else {
-                    dayElement.addEventListener('click', () => selectDate(date));
+                    dayElement.addEventListener('click', (e) => selectDate(date, e));
                 }
 
                 calendarGrid.appendChild(dayElement);
@@ -1664,7 +1779,7 @@
         }
 
         // Select date
-        function selectDate(date) {
+        function selectDate(date, event) {
             selectedDate = date;
             
             // Update visual selection
@@ -1672,7 +1787,9 @@
                 day.classList.remove('selected');
             });
             
-            event.target.classList.add('selected');
+            if (event.target.classList.contains('calendar-day')) {
+                event.target.classList.add('selected');
+            }
         }
 
         // Time preset buttons
@@ -1685,7 +1802,8 @@
                 
                 // Visual feedback
                 document.querySelectorAll('.time-preset').forEach(p => p.style.background = '');
-                preset.style.background = 'var(--primary-pink)';
+                preset.style.background = 'var(--primary-blue)';
+                preset.style.color = 'white';
             });
         });
 
@@ -1735,8 +1853,10 @@
             });
         });
 
-        // Search Form Validation
+        // Feature Under Construction Modal functionality
         const searchBtn = document.getElementById('search-btn');
+        const underConstructionModal = document.getElementById('under-construction-modal');
+        const closeConstructionModal = document.getElementById('close-construction-modal');
 
         searchBtn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -1745,48 +1865,46 @@
             
             // Validate city selection
             if (selectedCitySpan.textContent === 'Select City') {
-                citySelector.style.borderColor = '#ef4444';
+                citySelector.style.borderColor = 'red';
                 isValid = false;
                 setTimeout(() => {
                     citySelector.style.borderColor = '';
-                }, 3000);
+                }, 2000);
             }
             
             // Validate pickup date
             const pickupDate = document.getElementById('pickup-date-display').textContent;
             if (pickupDate === 'Select Date') {
-                pickupDateBtn.style.borderColor = '#ef4444';
+                pickupDateBtn.style.borderColor = 'red';
                 isValid = false;
                 setTimeout(() => {
                     pickupDateBtn.style.borderColor = '';
-                }, 3000);
+                }, 2000);
             }
             
             // Validate return date
             const returnDate = document.getElementById('return-date-display').textContent;
             if (returnDate === 'Select Date') {
-                returnDateBtn.style.borderColor = '#ef4444';
+                returnDateBtn.style.borderColor = 'red';
                 isValid = false;
                 setTimeout(() => {
                     returnDateBtn.style.borderColor = '';
-                }, 3000);
+                }, 2000);
             }
 
             if (isValid) {
-                // Show loading state
-                searchBtn.innerHTML = '<div class="loading mr-2"></div>Searching...';
-                searchBtn.disabled = true;
-                
-                // Simulate search
-                setTimeout(() => {
-                    searchBtn.innerHTML = '<i class="fas fa-search mr-2"></i>Find Cars';
-                    searchBtn.disabled = false;
-                    
-                    const pickupTime = document.getElementById('pickup-time-display').textContent;
-                    const returnTime = document.getElementById('return-time-display').textContent;
-                    
-                    alert(`🚗 Search Results Found!\n\nCity: ${selectedCitySpan.textContent}\nPickup: ${pickupDate} at ${pickupTime}\nReturn: ${returnDate} at ${returnTime}\n\nRedirecting to available cars...`);
-                }, 2000);
+                // Show the "Under Construction" pop-up instead of simulating search
+                underConstructionModal.classList.add('active');
+            }
+        });
+
+        closeConstructionModal.addEventListener('click', () => {
+            underConstructionModal.classList.remove('active');
+        });
+
+        underConstructionModal.addEventListener('click', (e) => {
+            if (e.target === underConstructionModal) {
+                underConstructionModal.classList.remove('active');
             }
         });
 
@@ -1807,10 +1925,12 @@
         // Navbar Background on Scroll
         window.addEventListener('scroll', () => {
             const navbar = document.getElementById('navbar');
-            if (window.scrollY > 100) {
-                navbar.classList.add('bg-black/90');
+            if (window.scrollY > 50) { // Changed threshold for light mode
+                navbar.classList.add('bg-white', 'shadow-sm'); // Lighter shadow
+                navbar.classList.remove('glass'); // Remove initial glass effect
             } else {
-                navbar.classList.remove('bg-black/90');
+                navbar.classList.remove('bg-white', 'shadow-sm');
+                navbar.classList.add('glass'); // Re-add glass effect when at top
             }
         });
 
@@ -1843,7 +1963,7 @@
                     }
                 }
             });
-        });
+        }, { threshold: 0.5 }); // Trigger when 50% of element is visible
 
         // Observe counter sections
         document.querySelectorAll('[data-aos]').forEach(el => {
@@ -1852,35 +1972,13 @@
             }
         });
 
-        // Car booking buttons
-        document.querySelectorAll('.car-card button').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const carName = e.target.closest('.car-card').querySelector('h3').textContent;
-                alert(`🏎️ Booking ${carName}!\n\nRedirecting to booking page with your selected preferences...`);
-            });
-        });
-
-        // Random particle movement
-        const particles = document.querySelectorAll('.particle');
-        particles.forEach(particle => {
-            const randomDelay = Math.random() * 2;
-            const randomDuration = 3 + Math.random() * 2;
-            
-            particle.style.animationDelay = `${randomDelay}s`;
-            particle.style.animationDuration = `${randomDuration}s`;
-        });
-
-        // Page load animation
+        // Page load animation (AOS handles most of this now)
         window.addEventListener('load', () => {
-            document.body.classList.add('loaded');
-            
-            // Initialize calendar on load
-            currentMonth = new Date().getMonth();
-            currentYear = new Date().getFullYear();
+            // No specific body class needed if AOS handles everything
+            // Initialize calendar on load - already done via currentMonth/Year
         });
 
-        console.log('🚗 Velocity Hunters - Compact Premium Date Picker Loaded! 🏁');
+        console.log('🚗 Velocity Hunters Home Page - Light Mode Loaded! ✨');
     </script>
 </body>
 </html>
